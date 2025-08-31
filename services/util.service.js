@@ -3,6 +3,8 @@ export const utilService = {
   saveToStorage,
   makeId,
   makeLorem,
+  makeNames,
+  capitalizeWords,
   getRandomIntInclusive,
   getDayName,
   getMonthName,
@@ -61,6 +63,70 @@ function makeLorem(size = 100) {
   return txt;
 }
 
+function makeNames(size = 1) {
+  const firstNames = [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "David",
+    "Eva",
+    "Frank",
+    "Grace",
+    "Hannah",
+    "Ian",
+    "Jack",
+    "John",
+    "Bill",
+    "David",
+    "Henery",
+    "Michael",
+    "Lucas",
+    "Mia",
+    "Olivia",
+  ];
+  const lastNames = [
+    "Cohen",
+    "Smith",
+    "Levi",
+    "Doe",
+    "Johnson",
+    "Jackson",
+    "Jordan",
+    "Turing",
+    "Williams",
+    "Ritchie",
+    "Simpson",
+    "Washington",
+    "White",
+    "Black",
+    "Mendelson",
+    "Perlman",
+    "Carlsen",
+  ];
+  const names = [];
+  let fullName,
+    firstName,
+    lastName = "";
+  while (size > 0) {
+    size--;
+    firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+    lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    fullName = `${firstName} ${lastName}`;
+    names.push(fullName);
+  }
+  return names;
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
+function saveToStorage(key, value) {
+  return txt;
+}
+
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -97,6 +163,27 @@ function getMonthName(date) {
     "December",
   ];
   return monthNames[date.getMonth()];
+}
+
+function capitalizeWords(str) {
+  // Convert the entire string to lowercase to handle varying initial casing,
+  // then split it into an array of words using space as the delimiter.
+  const words = str.toLowerCase().split(" ");
+
+  // Use the map method to iterate over each word in the array.
+  const capitalizedWords = words.map((word) => {
+    // Check if the word is not empty to avoid errors with multiple spaces.
+    if (word.length > 0) {
+      // Capitalize the first letter and concatenate it with the rest of the word.
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    } else {
+      // Return an empty string for empty words (resulting from multiple spaces).
+      return "";
+    }
+  });
+
+  // Join the capitalized words back into a single string with spaces.
+  return capitalizedWords.join(" ");
 }
 
 function animateCSS(el, animation = "bounce") {
