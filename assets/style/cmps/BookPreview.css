@@ -1,16 +1,123 @@
 .book-preview {
-  text-align: center;
-  padding: 0.3em;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 1px solid var(--gray3);
+  border-radius: 8px;
+  background-color: var(--clr7); /* Soft orange background */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.book-preview h4 {
-  text-transform: capitalize;
-  color: black;
+.book-preview:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-preview header {
+  margin-bottom: 1rem;
+}
+
+.book-preview h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--clr1); /* Coffee Brown */
+}
+
+.book-preview .subtitle {
+  font-size: 1rem;
+  color: var(--clr2); /* Warm Tan */
+  margin: 0.25rem 0;
+}
+
+.book-preview .authors {
+  font-size: 0.9rem;
+  color: var(--gray2); /* Secondary text */
+}
+
+.book-preview figure {
+  margin: 0;
+  text-align: center;
 }
 
 .book-preview img {
-  max-width: 100px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+  border: 2px solid var(--clr8); /* Soft yellow border */
+}
+
+.book-preview img:hover {
+  transform: scale(1.03);
+  border-color: var(--clr2); /* Warm Tan on hover */
+}
+
+.book-preview .book-meta {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--gray1); /* Main text */
+}
+
+.book-preview .book-meta p {
+  margin: 0.5rem 0;
+}
+
+.book-preview .on-sale {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.4rem;
+  background-color: var(--clr5); /* Red - sale */
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+  transition: background-color 0.3s ease;
+}
+
+.book-preview .on-sale:hover {
+  background-color: #c62828; /* Slightly darker red */
+}
+
+/* 🔁 Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 📱 Mobile Responsiveness */
+@media (max-width: 600px) {
+  .book-preview {
+    max-width: 90%;
+    padding: 0.75rem;
+  }
+
+  .book-preview h2 {
+    font-size: 1.25rem;
+  }
+
+  .book-preview .subtitle,
+  .book-preview .authors,
+  .book-preview .book-meta {
+    font-size: 0.85rem;
+  }
+
+  .book-preview img {
+    max-height: 300px;
+    object-fit: contain;
+  }
 }
