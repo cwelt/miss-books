@@ -1,6 +1,8 @@
 export function BookDetails({ book }) {
   const authors =
     book.authors && book.authors.length ? book.authors.join(", ") : "Unknown";
+  const authorsTitle =
+    book.authors && book.authors.length > 1 ? "Authors" : "Author";
   const categories =
     book.categories && book.categories.length
       ? book.categories.join(", ")
@@ -13,10 +15,7 @@ export function BookDetails({ book }) {
         <h1>{book.title}</h1>
         <h2>{book.subtitle}</h2>
         <p className="authors">
-          <strong>
-            Author{book.authors && book.authors.length > 1 ? "s" : ""}:
-          </strong>{" "}
-          {authors}
+          <strong>{authorsTitle}:</strong> {authors}
         </p>
       </header>
       <div className="details-main">
@@ -24,6 +23,7 @@ export function BookDetails({ book }) {
           <img src={book.thumbnail} alt={book.title} />
         </figure>
         <div className="details-info">
+          <div className="details-heading">Details</div>
           <p className="description">{book.description}</p>
           <ul>
             <li>
@@ -39,6 +39,7 @@ export function BookDetails({ book }) {
               <strong>Categories:</strong> {categories}
             </li>
           </ul>
+
           <div className="price">
             <strong>
               Price: {book.listPrice ? book.listPrice.amount : ""}{" "}
