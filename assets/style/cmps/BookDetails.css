@@ -1,17 +1,84 @@
 .book-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 2em;
+  max-width: 700px;
+  margin: 2em auto;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
+
+.book-details header {
+  margin-bottom: 1em;
+}
+
 .book-details h1 {
   color: var(--clr1);
   font-size: 2em;
+  margin-bottom: 0.2em;
 }
-.book-details h5 {
+
+.book-details h2 {
   color: var(--clr2);
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
 }
+
+.book-details .authors {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 0.5em;
+}
+
+.book-details .details-main {
+  display: flex;
+  gap: 2em;
+  align-items: flex-start;
+}
+
+.book-details figure {
+  margin: 0;
+}
+
 .book-details img {
-  max-width: 200px;
-  display: block;
-  margin: auto;
+  max-width: 180px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.book-details .details-info {
+  flex: 1;
+}
+
+.book-details .description {
+  font-size: 1em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+.book-details ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+.book-details ul li {
+  margin-bottom: 0.4em;
+  font-size: 1em;
+}
+
+.book-details .price {
+  font-size: 1.1em;
+  color: var(--clr1);
+  margin-top: 0.5em;
+}
+
+.book-details .on-sale {
+  background: var(--clr2);
+  color: #fff;
+  font-weight: bold;
+  padding: 0.2em 0.6em;
+  border-radius: 6px;
+  margin-left: 1em;
+  font-size: 0.95em;
 }
