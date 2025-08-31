@@ -51,7 +51,7 @@ export function BookIndex() {
 
   return (
     <section className="book-index">
-      <h2>Its all about Books</h2>
+      <h2>Its all about Books 📖</h2>
       {!selectedBook && (
         <button onClick={() => setIsEdit(true)}>Add Book</button>
       )}
