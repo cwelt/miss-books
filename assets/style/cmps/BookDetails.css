@@ -1,180 +1,181 @@
 .book-details {
-  background: var(--clr6);
-  border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(109, 76, 65, 0.07);
-  padding: 2em;
-  max-width: 700px;
-  margin: 2em 0 2em 2em; /* Left align */
-  font-family: "Georgia", "Times New Roman", serif;
-  color: var(--gray1);
+  width: 100%;
+  margin: 2rem 0;
+  padding: 2rem; /* Slightly more padding for breathing room */
+  background-color: var(--clr8);
+  border: 1px solid var(--gray3);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 
 .book-details header {
-  margin-bottom: 1em;
+  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .book-details h1 {
+  font-size: 2.4rem; /* Enlarged */
   color: var(--clr1);
-  font-size: 2em;
-  margin-bottom: 0.2em;
-  letter-spacing: 1px;
-  background: var(--clr7);
-  padding: 0.2em 0.6em;
-  border-radius: 6px;
-  display: inline-block;
+  margin-bottom: 0.3rem;
 }
 
 .book-details h2 {
+  font-size: 1.5rem; /* Enlarged */
   color: var(--clr2);
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
-  background: var(--clr8);
-  padding: 0.15em 0.5em;
-  border-radius: 6px;
-  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 
 .book-details .authors {
-  font-size: 1em;
+  font-size: 1.05rem;
   color: var(--gray2);
-  margin-bottom: 0.5em;
-  background: var(--clr9);
-  padding: 0.1em 0.5em;
-  border-radius: 6px;
-  display: inline-block;
 }
 
-.book-details .details-main {
+.details-main {
   display: flex;
-  gap: 2em;
+  flex-wrap: wrap;
+  gap: 0.2rem; /* Reduced gap */
   align-items: flex-start;
+  justify-content: flex-start;
 }
 
-.book-details figure {
+.details-main figure {
+  flex: 1 1 200px;
+  flex-grow: 0;
   margin: 0;
+  text-align: start;
 }
 
-.book-details img {
-  max-width: 180px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(109, 76, 65, 0.1);
-  border: 3px solid var(--clr2);
-  background: var(--clr7);
-}
-
-.book-details .details-info {
-  flex: 1;
-}
-
-.book-details .details-info .details-heading {
-  font-size: 1.15em;
-  color: var(--clr1);
-  font-weight: bold;
-  margin-bottom: 0.7em;
-  background: var(--clr2bg);
-  padding: 0.2em 0.7em;
+.details-main img {
+  max-width: 100%;
+  height: auto;
   border-radius: 6px;
-  display: inline-block;
+  border: 2px solid var(--clr9);
+  transition: transform 0.3s ease;
 }
 
-.book-details .description {
-  font-size: 1em;
-  margin-bottom: 1em;
-  color: var(--gray1);
-  background: var(--clr8);
-  padding: 0.5em 1em;
-  border-radius: 8px;
+.details-main img:hover {
+  transform: scale(1.03);
+  border-color: var(--clr2);
 }
 
-.book-details ul {
+.details-info {
+  flex: 2 1 300px;
+  margin-left: 1.5rem;
+  font-size: 1.1rem; /* Slightly larger base font */
+}
+
+.details-heading {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--clr3);
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 1.05rem;
+  color: var(--gray2);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.details-info ul {
   list-style: none;
   padding: 0;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
-.book-details ul li {
-  margin-bottom: 0.4em;
-  font-size: 1em;
+.details-info li {
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: var(--gray1);
+}
+
+.details-info li strong {
   color: var(--clr1);
-  background: var(--clr7);
-  padding: 0.3em 0.8em;
-  border-radius: 6px;
 }
 
-.book-details .price-row {
-  display: flex;
-  align-items: center;
-  gap: 1em;
+.price {
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: var(--gray1);
+  margin-top: 1rem;
 }
 
-.book-details .price {
-  font-size: 1.1em;
-  color: var(--clr4);
-  margin-top: 0.5em;
-  background: var(--clr8);
-  padding: 0.4em 1em;
-  border-radius: 8px;
+.on-sale {
   display: inline-block;
-  font-weight: bold;
-  border: 2px solid var(--clr4);
+  margin-left: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background-color: var(--clr5);
+  color: #fff;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+  transition: background-color 0.3s ease;
 }
 
-.book-details .on-sale {
-  background: var(--clr5);
-  color: #fff;
-  font-weight: bold;
-  padding: 0.3em 1em;
-  border-radius: 8px;
-  font-size: 1em;
-  margin-left: 0.5em;
-  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.25);
-  border: 2px solid var(--clr9);
-  animation: sale-pop 1.2s ease-out forwards, pulse 2s ease-in-out 1.2s infinite;
+.on-sale:hover {
+  background-color: #c62828;
 }
-@keyframes sale-pop {
+
+/* Stylish form elements */
+select,
+button {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray3);
+  background-color: var(--clr9);
+  color: var(--gray1);
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+select:hover,
+button:hover {
+  background-color: var(--clr2);
+  border-color: var(--clr1);
+  color: #fff;
+}
+
+/* Pulse animation */
+@keyframes pulse {
   0% {
-    transform: scale(0.4) rotate(-10deg);
-    opacity: 0;
-  }
-  40% {
-    transform: scale(1.3) rotate(5deg);
+    transform: scale(1);
     opacity: 1;
   }
-  70% {
-    transform: scale(0.95) rotate(0deg);
+  50% {
+    transform: scale(1.1);
+    opacity: 0.85;
   }
-  100% {
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes pulse {
-  0%,
   100% {
     transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
+    opacity: 1;
   }
 }
 
-@media (max-width: 720px) {
-  .book-details {
-    margin: 1em;
-    padding: 1.5em;
-  }
-
-  .book-details .details-main {
+/* Responsive layout */
+@media (max-width: 768px) {
+  .details-main {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start; /* 👈 Keep left alignment on mobile */
   }
 
-  .book-details img {
-    max-width: 140px;
+  .details-info {
+    width: 100%;
   }
 
-  .book-details .price-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .book-details h1 {
+    font-size: 1.8rem;
+  }
+
+  .book-details h2 {
+    font-size: 1.3rem;
+  }
+
+  .description,
+  .details-info li,
+  .price {
+    font-size: 1rem;
   }
 }

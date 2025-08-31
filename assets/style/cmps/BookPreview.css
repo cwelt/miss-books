@@ -66,6 +66,25 @@
   margin: 0.5rem 0;
 }
 
+select,
+button {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray3);
+  background-color: var(--clr9); /* Soft pink */
+  color: var(--gray1);
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+select:hover,
+button:hover {
+  background-color: var(--clr2); /* Warm tan */
+  border-color: var(--clr1);
+  color: #fff;
+}
+
 .book-preview .on-sale {
   display: inline-block;
   margin-left: 0.5rem;
