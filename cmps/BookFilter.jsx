@@ -47,7 +47,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
 
   const { txt, maxPrice } = filterByToEdit;
   return (
-    <section className="car-filter">
+    <section className="book-filter">
       <h2>Filter Books</h2>
       <form onSubmit={onSubmitFilter}>
         <label htmlFor="txt">Title: </label>
