@@ -1,4 +1,4 @@
-const books = [
+export const booksDemoData = [
   {
     id: "OXeMG8wNskc",
     title: "metus hendrerit",
