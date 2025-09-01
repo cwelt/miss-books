@@ -20,7 +20,22 @@ export function BookDetails() {
       });
   }
 
-  if (!book) return <div>Loading book details...</div>;
+  function getPageCountCategory(pageCount) {
+    let category;
+    if (pageCount < 100) category = "Light";
+    else if (pageCount < 200) category = "Medium";
+    else if (pageCount <= 500) category = "Descent";
+    else category = "Serious";
+    return category + " Reading";
+  }
+
+  if (!book)
+    return (
+      <div>
+        <h1>Loading book details...</h1>
+      </div>
+    );
+
   const authors =
     book.authors && book.authors.length ? book.authors.join(", ") : "Unknown";
   const authorsTitle =
@@ -53,6 +68,10 @@ export function BookDetails() {
             </li>
             <li>
               <strong>Pages:</strong> {book.pageCount}
+              <span className="banner">
+                {" "}
+                ({getPageCountCategory(book.pageCount)})
+              </span>
             </li>
             <li>
               <strong>Language:</strong> {book.language}
