@@ -148,7 +148,7 @@ function _createBooks(useDemoData = false) {
       }
     }
   }
-  console.log("books loaded:", books);
+  //console.log("books loaded:", books);
   utilService.saveToStorage(BOOK_KEY, books);
   return books;
 }

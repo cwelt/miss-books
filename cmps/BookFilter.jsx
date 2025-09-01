@@ -17,7 +17,6 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
   }, [filterByToEdit]);
 
   function handleChange({ target }) {
-    console.log(target, target.value);
     const field = target.name;
     let value = target.value;
 
