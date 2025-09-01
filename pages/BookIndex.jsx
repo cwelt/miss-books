@@ -6,6 +6,7 @@ import { bookService } from "../services/book.service.js";
 import { ToggleButton } from "../cmps/ToggleButton.jsx";
 
 const { useState, useEffect } = React;
+const { Outlet } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
@@ -96,6 +97,11 @@ export function BookIndex() {
           )}
           <span>Switch to {isEdit ? "view" : "edit"} </span>
           <ToggleButton val={isEdit} setVal={setIsEdit} />
+        </section>
+      )}
+      {false && (
+        <section>
+          <Outlet />
         </section>
       )}
     </section>
