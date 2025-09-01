@@ -11,22 +11,47 @@ export const bookService = {
   save,
   getEmptyBook,
   getDefaultFilter,
+  getBookCategories,
 };
 
-// For Debug (easy access from console):
-// window.cs = bookService
+/* For Debug (easy access from console):
+ window.cs = bookService */
 
 function query(filterBy = {}) {
   return storageService.query(BOOK_KEY).then((books) => {
-    if (filterBy.txt) {
-      const regExp = new RegExp(filterBy.txt, "i");
-      books = books.filter((book) => regExp.test(book.title));
+    if (filterBy.title) {
+      const regExp = new RegExp(filterBy.title, "i");
+      books = books.filter(
+        (book) => regExp.test(book.title) || regExp.test(book.subtitle)
+      );
+    }
+
+    if (filterBy.author) {
+      const regExp = new RegExp(filterBy.author, "i");
+      books = books.filter((book) => regExp.test(book.authors.join(" ")));
+    }
+
+    if (filterBy.category) {
+      const regExp = new RegExp(filterBy.category, "i");
+      books = books.filter((book) => regExp.test(book.categories.join(" ")));
     }
 
     if (filterBy.maxPrice) {
       books = books.filter(
         (book) => book.listPrice.amount <= filterBy.maxPrice
       );
+    }
+
+    if (filterBy.startYear) {
+      books = books.filter((book) => book.publishedDate >= filterBy.startYear);
+    }
+
+    if (filterBy.endYear) {
+      books = books.filter((book) => book.publishedDate <= filterBy.endYear);
+    }
+
+    if (filterBy.onSale) {
+      books = books.filter((book) => book.listPrice.isOnSale);
     }
 
     return books;
@@ -59,8 +84,27 @@ function getEmptyBook(title = "", author = "", price = 0) {
   return { title, author, price };
 }
 
-function getDefaultFilter(filterBy = { txt: "", maxPrice: 0 }) {
-  return { txt: filterBy.txt, maxPrice: filterBy.maxPrice };
+function getDefaultFilter(
+  filterBy = {
+    title: "",
+    author: "",
+    category: "",
+    maxPrice: 1000,
+    startYear: 1920,
+    endYear: new Date().getFullYear(),
+    onSale: false,
+  }
+) {
+  return { ...filterBy };
+}
+
+function getBookCategories() {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const categories = [
+      ...new Set(books.map((book) => [...book.categories]).flat()),
+    ];
+    return categories;
+  });
 }
 
 function _createBooks(useDemoData = false) {

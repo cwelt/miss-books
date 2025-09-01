@@ -1,14 +1,23 @@
+import { bookService } from "../services/book.service.js";
 const { useState, useEffect } = React;
 
 export function BookFilter({ filterBy, onSetFilterBy }) {
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
+  const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy });
+  const [bookCategories, setBookCategories] = useState([]);
+
+  /* on mount get list of possible categories to display on filter selection list */
+  useEffect(() => {
+    bookService.getBookCategories().then((categories) => {
+      setBookCategories(categories);
+    });
+  }, []);
 
   useEffect(() => {
-    // Notify parent
-    onSetFilterBy(filterByToEdit);
+    onSetFilterBy(filterByToEdit); // Notify parent
   }, [filterByToEdit]);
 
   function handleChange({ target }) {
+    console.log(target, target.value);
     const field = target.name;
     let value = target.value;
 
@@ -29,36 +38,81 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     setFilterByToEdit((prevFilter) => ({ ...prevFilter, [field]: value }));
   }
 
-  // Optional support for LAZY Filtering with a button
+  {
+    /* Optional support for LAZY Filtering with a button */
+  }
   function onSubmitFilter(ev) {
     ev.preventDefault();
     onSetFilterBy(filterByToEdit);
   }
 
-  // function handleTxtChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilter => ({ ...prevFilter, txt: value }))
-  // }
+  const { title, author, maxPrice, startYear, endYear, onSale, category } =
+    filterByToEdit;
+  const currentYear = new Date().getFullYear();
 
-  // function handleMinSpeedChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilter => ({ ...prevFilter, minSpeed: value }))
-  // }
-
-  const { txt, maxPrice } = filterByToEdit;
   return (
     <section className="book-filter">
       <h2>Filter Books</h2>
       <form onSubmit={onSubmitFilter}>
-        <label htmlFor="txt">Title: </label>
+        {/* title */}
+        <label htmlFor="title">Title: </label>
         <input
-          value={txt}
+          value={title}
           onChange={handleChange}
           type="text"
           placeholder="By Title"
-          id="txt"
-          name="txt"
+          id="title"
+          name="title"
         />
+        {/* author */}
+        <label htmlFor="author">Author: </label>
+        <input
+          value={author}
+          onChange={handleChange}
+          type="text"
+          placeholder="By Author"
+          id="author"
+          name="author"
+        />
+        {/* category */}
+        <label htmlFor="category">Select Category</label>
+        <select
+          id="category"
+          name="category"
+          value={filterByToEdit.category}
+          onChange={handleChange}
+        >
+          {bookCategories &&
+            bookCategories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+        </select>
+
+        {/* publish start year */}
+        <label htmlFor="startYear">Published Since:</label>
+        <input
+          type="number"
+          id="startYear"
+          name="startYear"
+          min="1900"
+          max={currentYear}
+          value={startYear}
+          onChange={handleChange}
+        />
+        {/* publish end year */}
+        <label htmlFor="endYear">Published up Until:</label>
+        <input
+          type="number"
+          id="endYear"
+          name="endYear"
+          min="1900"
+          max={currentYear}
+          value={endYear}
+          onChange={handleChange}
+        />
+        {/* max price */}
         <label htmlFor="maxPrice">Max Price: </label>
         <input
           value={maxPrice}
@@ -68,7 +122,16 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           id="maxPrice"
           name="maxPrice"
         />
-
+        {/* on sale */}
+        <label>
+          <input
+            type="checkbox"
+            name="onSale"
+            value={true}
+            onChange={handleChange}
+          />
+          On Sale Only
+        </label>
         <button hidden>Set Filter</button>
       </form>
     </section>
