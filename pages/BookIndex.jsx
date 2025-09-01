@@ -37,6 +37,11 @@ export function BookIndex() {
       });
   }
 
+  function onRemoveAllBooks() {
+    bookService.removeAllBooks();
+    setBooks([]);
+  }
+
   function onBookCreated(savedBook) {
     setBooks([...books, savedBook]);
     setIsEdit(false);
@@ -53,6 +58,7 @@ export function BookIndex() {
   return (
     <section className="book-index">
       <h2>Its all about Books 📖</h2>
+      <button onClick={onRemoveAllBooks}> Remove All Books </button>
       {!selectedBook && (
         <button hidden onClick={() => setIsEdit(true)}>
           Add Book

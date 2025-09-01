@@ -12,6 +12,7 @@ export const bookService = {
   getEmptyBook,
   getDefaultFilter,
   getBookCategories,
+  removeAllBooks,
 };
 
 /* For Debug (easy access from console):
@@ -70,6 +71,10 @@ function get(bookId, enrichData = true) {
 
 function remove(bookId) {
   return storageService.remove(BOOK_KEY, bookId);
+}
+
+function removeAllBooks() {
+  return utilService.saveToStorage(BOOK_KEY, []);
 }
 
 function save(book) {
