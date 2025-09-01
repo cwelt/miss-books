@@ -58,12 +58,15 @@ export function BookDetails() {
           <ul>
             <li>
               <strong>Published:</strong> {book.publishedDate}{" "}
-              {book.publishedDateCategory} &&{" "}
-              <span className="banner"> ({book.publishedDateCategory})</span>
+              {book.publishedDateCategory && (
+                <span className="banner"> ({book.publishedDateCategory})</span>
+              )}
             </li>
             <li>
               <strong>Pages:</strong> {book.pageCount}{" "}
-              <span className="banner"> ({book.pageCountCategory})</span>
+              {book.pageCountCategory && (
+                <span className="banner"> ({book.pageCountCategory})</span>
+              )}
             </li>
             <li>
               <strong>Language:</strong> {book.language}
