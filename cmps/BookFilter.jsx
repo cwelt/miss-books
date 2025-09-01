@@ -54,6 +54,16 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     <section className="book-filter">
       <h2>Filter Books</h2>
       <form onSubmit={onSubmitFilter}>
+        {/* on sale */}
+        <label>
+          <input
+            type="checkbox"
+            name="onSale"
+            value={true}
+            onChange={handleChange}
+          />
+          On Sale Only
+        </label>
         {/* title */}
         <label htmlFor="title">Title: </label>
         <input
@@ -122,16 +132,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           id="maxPrice"
           name="maxPrice"
         />
-        {/* on sale */}
-        <label>
-          <input
-            type="checkbox"
-            name="onSale"
-            value={true}
-            onChange={handleChange}
-          />
-          On Sale Only
-        </label>
+
         <button hidden>Set Filter</button>
       </form>
     </section>

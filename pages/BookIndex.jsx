@@ -54,7 +54,9 @@ export function BookIndex() {
     <section className="book-index">
       <h2>Its all about Books 📖</h2>
       {!selectedBook && (
-        <button onClick={() => setIsEdit(true)}>Add Book</button>
+        <button hidden onClick={() => setIsEdit(true)}>
+          Add Book
+        </button>
       )}
 
       {/* For adding a book */}
@@ -86,7 +88,7 @@ export function BookIndex() {
             </section>
           )}
           {/* For updating a book */}
-          {isEdit && (
+          {isEdit && false && (
             <BookEdit
               book={selectedBook}
               onUpdated={onBookUpdated}
