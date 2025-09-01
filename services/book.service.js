@@ -39,6 +39,10 @@ function query(filterBy = {}) {
       books = books.filter((book) => book.publishedDate <= filterBy.endYear);
     }
 
+    if (filterBy.onSale) {
+      books = books.filter((book) => book.listPrice.isOnSale);
+    }
+
     return books;
   });
 }
@@ -75,6 +79,7 @@ function getDefaultFilter(
     maxPrice: 1000,
     startYear: 1984,
     endYear: new Date().getFullYear(),
+    onSale: false,
   }
 ) {
   return { ...filterBy };
