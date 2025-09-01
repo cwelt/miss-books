@@ -1,4 +1,26 @@
-export function BookDetails({ book }) {
+import { bookService } from "../services/book.service.js";
+
+const { useState, useEffect } = React;
+const { useParams } = ReactRouterDOM;
+
+export function BookDetails() {
+  const [book, setBook] = useState(null);
+  const params = useParams();
+
+  useEffect(() => {
+    loadBook();
+  }, [params.bookId]);
+
+  function loadBook() {
+    bookService
+      .get(params.bookId)
+      .then(setBook)
+      .catch((err) => {
+        console.error("Error loading book:", err);
+      });
+  }
+
+  if (!book) return <div>Loading book details...</div>;
   const authors =
     book.authors && book.authors.length ? book.authors.join(", ") : "Unknown";
   const authorsTitle =
