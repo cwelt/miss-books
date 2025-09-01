@@ -34,7 +34,8 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     onSetFilterBy(filterByToEdit);
   }
 
-  const { title, maxPrice, startYear, endYear, onSale } = filterByToEdit;
+  const { title, author, maxPrice, startYear, endYear, onSale } =
+    filterByToEdit;
   const currentYear = new Date().getFullYear();
 
   return (
@@ -50,14 +51,14 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           id="title"
           name="title"
         />
-        <label htmlFor="maxPrice">Max Price: </label>
+        <label htmlFor="author">Author: </label>
         <input
-          value={maxPrice}
+          value={author}
           onChange={handleChange}
-          type="number"
-          placeholder="By Max Price"
-          id="maxPrice"
-          name="maxPrice"
+          type="text"
+          placeholder="By Author"
+          id="author"
+          name="author"
         />
         <label htmlFor="startYear">Published Since:</label>
         <input
@@ -69,7 +70,6 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           value={startYear}
           onChange={handleChange}
         />
-
         <label htmlFor="endYear">Published up Until:</label>
         <input
           type="number"
@@ -80,7 +80,15 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           value={endYear}
           onChange={handleChange}
         />
-
+        <label htmlFor="maxPrice">Max Price: </label>
+        <input
+          value={maxPrice}
+          onChange={handleChange}
+          type="number"
+          placeholder="By Max Price"
+          id="maxPrice"
+          name="maxPrice"
+        />
         <label>
           <input
             type="checkbox"
@@ -90,7 +98,6 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           />
           On Sale Only
         </label>
-
         <button hidden>Set Filter</button>
       </form>
     </section>
