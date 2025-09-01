@@ -1,11 +1,10 @@
 const { useState, useEffect } = React;
 
 export function BookFilter({ filterBy, onSetFilterBy }) {
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
+  const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy });
 
   useEffect(() => {
-    // Notify parent
-    onSetFilterBy(filterByToEdit);
+    onSetFilterBy(filterByToEdit); // Notify parent
   }, [filterByToEdit]);
 
   function handleChange({ target }) {
@@ -35,29 +34,21 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     onSetFilterBy(filterByToEdit);
   }
 
-  // function handleTxtChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilter => ({ ...prevFilter, txt: value }))
-  // }
+  const { title, maxPrice, startYear, endYear } = filterByToEdit;
+  const currentYear = new Date().getFullYear();
 
-  // function handleMinSpeedChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilter => ({ ...prevFilter, minSpeed: value }))
-  // }
-
-  const { txt, maxPrice } = filterByToEdit;
   return (
     <section className="book-filter">
       <h2>Filter Books</h2>
       <form onSubmit={onSubmitFilter}>
-        <label htmlFor="txt">Title: </label>
+        <label htmlFor="title">Title: </label>
         <input
-          value={txt}
+          value={title}
           onChange={handleChange}
           type="text"
           placeholder="By Title"
-          id="txt"
-          name="txt"
+          id="title"
+          name="title"
         />
         <label htmlFor="maxPrice">Max Price: </label>
         <input
@@ -67,6 +58,27 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
           placeholder="By Max Price"
           id="maxPrice"
           name="maxPrice"
+        />
+        <label htmlFor="startYear">Published Since:</label>
+        <input
+          type="number"
+          id="startYear"
+          name="startYear"
+          min="1900"
+          max={currentYear}
+          value={startYear}
+          onChange={handleChange}
+        />
+
+        <label htmlFor="endYear">Published up Until:</label>
+        <input
+          type="number"
+          id="endYear"
+          name="endYear"
+          min="1900"
+          max={currentYear}
+          value={endYear}
+          onChange={handleChange}
         />
 
         <button hidden>Set Filter</button>

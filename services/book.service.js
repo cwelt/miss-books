@@ -18,15 +18,25 @@ export const bookService = {
 
 function query(filterBy = {}) {
   return storageService.query(BOOK_KEY).then((books) => {
-    if (filterBy.txt) {
-      const regExp = new RegExp(filterBy.txt, "i");
-      books = books.filter((book) => regExp.test(book.title));
+    if (filterBy.title) {
+      const regExp = new RegExp(filterBy.title, "i");
+      books = books.filter((book) => {
+        regExp.test(book.title) || regExp.test(book.subtitle);
+      });
     }
 
     if (filterBy.maxPrice) {
       books = books.filter(
         (book) => book.listPrice.amount <= filterBy.maxPrice
       );
+    }
+
+    if (filterBy.startYear) {
+      books = books.filter((book) => book.publishedDate >= filterBy.startYear);
+    }
+
+    if (filterBy.endYear) {
+      books = books.filter((book) => book.publishedDate <= filterBy.endYear);
     }
 
     return books;
@@ -59,8 +69,15 @@ function getEmptyBook(title = "", author = "", price = 0) {
   return { title, author, price };
 }
 
-function getDefaultFilter(filterBy = { txt: "", maxPrice: 0 }) {
-  return { txt: filterBy.txt, maxPrice: filterBy.maxPrice };
+function getDefaultFilter(
+  filterBy = {
+    title: "",
+    maxPrice: 1000,
+    startYear: 1984,
+    endYear: new Date().getFullYear(),
+  }
+) {
+  return { ...filterBy };
 }
 
 function _createBooks(useDemoData = false) {
