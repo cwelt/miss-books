@@ -34,7 +34,7 @@ function query(filterBy = {}) {
 }
 
 function get(bookId) {
-  return storageService.get(BOOK_KEY, bookId);
+  return storageService.get(BOOK_KEY, bookId).then(_setNextPrevBookId);
 }
 
 function remove(bookId) {
@@ -102,6 +102,19 @@ function _createBook(title, author, price) {
   const book = getEmptyBook(title, author, price);
   book.id = utilService.makeId();
   return book;
+}
+
+function _setNextPrevBookId(book) {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const bookIdx = books.findIndex((currBook) => currBook.id === book.id);
+    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0];
+    const prevBook = books[bookIdx - 1]
+      ? books[bookIdx - 1]
+      : books[books.length - 1];
+    book.nextBookId = nextBook.id;
+    book.prevBookId = prevBook.id;
+    return book;
+  });
 }
 
 const booksDemoData = [

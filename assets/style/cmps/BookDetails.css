@@ -177,6 +177,20 @@ button:hover {
   color: #fff;
 }
 
+.book-details .next-prev {
+  margin-top: 10px;
+  background-color: var(--clr1);
+  color: white;
+  padding: 0.7em;
+}
+.book-details .next-prev a {
+  margin: 1em;
+}
+
+.book-details .next-prev a:hover {
+  color: var(--gray2);
+}
+
 /* Pulse animation */
 @keyframes pulse {
   0% {

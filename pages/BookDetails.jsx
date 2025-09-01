@@ -1,9 +1,10 @@
 import { bookService } from "../services/book.service.js";
 
 const { useState, useEffect } = React;
-const { useParams } = ReactRouterDOM;
+const { useParams, useNavigate, Link } = ReactRouterDOM;
 
 export function BookDetails() {
+  const navigate = useNavigate();
   const [book, setBook] = useState(null);
   const params = useParams();
 
@@ -17,7 +18,12 @@ export function BookDetails() {
       .then(setBook)
       .catch((err) => {
         console.error("Error loading book:", err);
+        navigate("/book");
       });
+  }
+
+  function onBack() {
+    navigate("/book");
   }
 
   function getPageCountCategory(pageCount) {
@@ -111,6 +117,12 @@ export function BookDetails() {
           </div>
         </div>
       </div>
+      <nav className="next-prev">
+        <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
+        <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
+      </nav>
+      <hr />
+      <button onClick={onBack}>Back</button>
     </section>
   );
 }
