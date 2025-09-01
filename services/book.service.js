@@ -11,10 +11,11 @@ export const bookService = {
   save,
   getEmptyBook,
   getDefaultFilter,
+  getBookCategories,
 };
 
-// For Debug (easy access from console):
-// window.cs = bookService
+/* For Debug (easy access from console):
+ window.cs = bookService */
 
 function query(filterBy = {}) {
   return storageService.query(BOOK_KEY).then((books) => {
@@ -23,6 +24,16 @@ function query(filterBy = {}) {
       books = books.filter(
         (book) => regExp.test(book.title) || regExp.test(book.subtitle)
       );
+    }
+
+    if (filterBy.author) {
+      const regExp = new RegExp(filterBy.author, "i");
+      books = books.filter((book) => regExp.test(book.authors.join(" ")));
+    }
+
+    if (filterBy.category) {
+      const regExp = new RegExp(filterBy.category, "i");
+      books = books.filter((book) => regExp.test(book.categories.join(" ")));
     }
 
     if (filterBy.maxPrice) {
@@ -41,10 +52,6 @@ function query(filterBy = {}) {
 
     if (filterBy.onSale) {
       books = books.filter((book) => book.listPrice.isOnSale);
-    }
-    if (filterBy.author) {
-      const regExp = new RegExp(filterBy.author, "i");
-      books = books.filter((book) => regExp.test(book.authors.join(" ")));
     }
 
     return books;
@@ -81,13 +88,23 @@ function getDefaultFilter(
   filterBy = {
     title: "",
     author: "",
+    category: "",
     maxPrice: 1000,
-    startYear: 1969,
+    startYear: 1920,
     endYear: new Date().getFullYear(),
     onSale: false,
   }
 ) {
   return { ...filterBy };
+}
+
+function getBookCategories() {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const categories = [
+      ...new Set(books.map((book) => [...book.categories]).flat()),
+    ];
+    return categories;
+  });
 }
 
 function _createBooks(useDemoData = false) {
