@@ -33,8 +33,14 @@ function query(filterBy = {}) {
   });
 }
 
-function get(bookId) {
-  return storageService.get(BOOK_KEY, bookId);
+function get(bookId, enrichData = true) {
+  return storageService
+    .get(BOOK_KEY, bookId)
+    .then(_setNextPrevBookId)
+    .then((book) => {
+      if (enrichData) book = _enrichBookDetails(book);
+      return book;
+    });
 }
 
 function remove(bookId) {
@@ -101,6 +107,54 @@ function _createBooks(useDemoData = false) {
 function _createBook(title, author, price) {
   const book = getEmptyBook(title, author, price);
   book.id = utilService.makeId();
+  return book;
+}
+
+function _setNextPrevBookId(book) {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const bookIdx = books.findIndex((currBook) => currBook.id === book.id);
+    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0];
+    const prevBook = books[bookIdx - 1]
+      ? books[bookIdx - 1]
+      : books[books.length - 1];
+    book.nextBookId = nextBook.id;
+    book.prevBookId = prevBook.id;
+    return book;
+  });
+}
+
+function _setPageCountCategory(book) {
+  if (book.pageCount < 100) book.pageCountCategory = "Light Reading";
+  else if (book.pageCount < 200) book.pageCountCategory = "Medium Reading";
+  else if (book.pageCount <= 500) book.pageCountCategory = "Descent Reading";
+  else book.pageCountCategory = "Serious Reading";
+  return book;
+}
+
+function _setPublishedDateCategory(book) {
+  const currentYear = new Date().getFullYear();
+  const diffYears = currentYear - book.publishedDate;
+  if (diffYears < 1) book.publishedDateCategory = "New Release";
+  else if (diffYears > 10) book.publishedDateCategory = "Vintage";
+  else book.publishedDateCategory = null;
+  return book;
+}
+
+function _setPriceCategory(book) {
+  if (book.listPrice.amount < 20) {
+    book.listPrice.priceCategory = "cheap";
+  } else if (book.listPrice.amount <= 150) {
+    book.listPrice.priceCategory = "medium";
+  } else {
+    book.listPrice.priceCategory = "expensive";
+  }
+  return book;
+}
+
+function _enrichBookDetails(book) {
+  book = _setPageCountCategory(book);
+  book = _setPublishedDateCategory(book);
+  book = _setPriceCategory(book);
   return book;
 }
 
