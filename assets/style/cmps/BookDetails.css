@@ -126,6 +126,18 @@
   font-style: italic;
 }
 
+.details-info .price .cheap {
+  color: darkgreen;
+}
+
+.details-info .price .medium {
+  color: orange;
+}
+
+.details-info .price .expensive {
+  color: red;
+}
+
 /* Stylish form elements */
 select,
 button {

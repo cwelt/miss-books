@@ -38,6 +38,12 @@ export function BookDetails() {
     else return null;
   }
 
+  function getPriceCategory(price) {
+    if (price < 20) return "cheap";
+    else if (price <= 150) return "medium";
+    else return "expensive";
+  }
+
   if (!book)
     return (
       <div>
@@ -56,6 +62,8 @@ export function BookDetails() {
   const isOnSale = book.listPrice && book.listPrice.isOnSale;
   const pageCountCategory = getPageCountCategory(book.pageCount);
   const publishedDateCategory = getPublishedDateCategory(book.publishedDate);
+  const priceCategory =
+    book.listPrice && getPriceCategory(book.listPrice.amount);
 
   return (
     <section className="book-details">
@@ -91,7 +99,7 @@ export function BookDetails() {
           </ul>
 
           <div className="price">
-            <strong>
+            <strong className={priceCategory}>
               Price: {book.listPrice ? book.listPrice.amount : ""}{" "}
               {book.listPrice ? book.listPrice.currencyCode : ""}
             </strong>
