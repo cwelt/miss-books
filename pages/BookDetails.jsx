@@ -29,6 +29,15 @@ export function BookDetails() {
     return category + " Reading";
   }
 
+  function getPublishedDateCategory(publishedYear) {
+    const currentYear = new Date().getFullYear();
+    const diffYears = currentYear - publishedYear;
+
+    if (diffYears < 1) return "New Release";
+    else if (diffYears > 10) return "Vintage";
+    else return null;
+  }
+
   if (!book)
     return (
       <div>
@@ -45,6 +54,8 @@ export function BookDetails() {
       ? book.categories.join(", ")
       : "Unknown";
   const isOnSale = book.listPrice && book.listPrice.isOnSale;
+  const pageCountCategory = getPageCountCategory(book.pageCount);
+  const publishedDateCategory = getPublishedDateCategory(book.publishedDate);
 
   return (
     <section className="book-details">
@@ -64,14 +75,12 @@ export function BookDetails() {
           <p className="description">{book.description}</p>
           <ul>
             <li>
-              <strong>Published:</strong> {book.publishedDate}
+              <strong>Published:</strong> {book.publishedDate}{" "}
+              <span className="banner"> ({publishedDateCategory})</span>
             </li>
             <li>
-              <strong>Pages:</strong> {book.pageCount}
-              <span className="banner">
-                {" "}
-                ({getPageCountCategory(book.pageCount)})
-              </span>
+              <strong>Pages:</strong> {book.pageCount}{" "}
+              <span className="banner"> ({pageCountCategory})</span>
             </li>
             <li>
               <strong>Language:</strong> {book.language}
