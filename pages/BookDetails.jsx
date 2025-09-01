@@ -58,6 +58,7 @@ export function BookDetails() {
           <ul>
             <li>
               <strong>Published:</strong> {book.publishedDate}{" "}
+              {book.publishedDateCategory} &&{" "}
               <span className="banner"> ({book.publishedDateCategory})</span>
             </li>
             <li>
