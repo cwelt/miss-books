@@ -20,7 +20,37 @@ export function BookDetails() {
       });
   }
 
-  if (!book) return <div>Loading book details...</div>;
+  function getPageCountCategory(pageCount) {
+    let category;
+    if (pageCount < 100) category = "Light";
+    else if (pageCount < 200) category = "Medium";
+    else if (pageCount <= 500) category = "Descent";
+    else category = "Serious";
+    return category + " Reading";
+  }
+
+  function getPublishedDateCategory(publishedYear) {
+    const currentYear = new Date().getFullYear();
+    const diffYears = currentYear - publishedYear;
+
+    if (diffYears < 1) return "New Release";
+    else if (diffYears > 10) return "Vintage";
+    else return null;
+  }
+
+  function getPriceCategory(price) {
+    if (price < 20) return "cheap";
+    else if (price <= 150) return "medium";
+    else return "expensive";
+  }
+
+  if (!book)
+    return (
+      <div>
+        <h1>Loading book details...</h1>
+      </div>
+    );
+
   const authors =
     book.authors && book.authors.length ? book.authors.join(", ") : "Unknown";
   const authorsTitle =
@@ -29,7 +59,12 @@ export function BookDetails() {
     book.categories && book.categories.length
       ? book.categories.join(", ")
       : "Unknown";
-  const isOnSale = book.listPrice && book.listPrice.isOnSale;
+  const isOnSale = book.listPrice.isOnSale;
+  const oldPrice = isOnSale && Math.floor(book.listPrice.amount * 1.125);
+  const pageCountCategory = getPageCountCategory(book.pageCount);
+  const publishedDateCategory = getPublishedDateCategory(book.publishedDate);
+  const priceCategory =
+    book.listPrice && getPriceCategory(book.listPrice.amount);
 
   return (
     <section className="book-details">
@@ -49,10 +84,12 @@ export function BookDetails() {
           <p className="description">{book.description}</p>
           <ul>
             <li>
-              <strong>Published:</strong> {book.publishedDate}
+              <strong>Published:</strong> {book.publishedDate}{" "}
+              <span className="banner"> ({publishedDateCategory})</span>
             </li>
             <li>
-              <strong>Pages:</strong> {book.pageCount}
+              <strong>Pages:</strong> {book.pageCount}{" "}
+              <span className="banner"> ({pageCountCategory})</span>
             </li>
             <li>
               <strong>Language:</strong> {book.language}
@@ -63,9 +100,12 @@ export function BookDetails() {
           </ul>
 
           <div className="price">
-            <strong>
-              Price: {book.listPrice ? book.listPrice.amount : ""}{" "}
-              {book.listPrice ? book.listPrice.currencyCode : ""}
+            <strong className={priceCategory}>
+              Price:{" "}
+              {isOnSale && (
+                <span className="old-price"> {`  ${oldPrice}  `} </span>
+              )}{" "}
+              {book.listPrice.amount} {book.listPrice.currencyCode}
             </strong>
             {isOnSale && <span className="on-sale">On Sale!</span>}
           </div>
