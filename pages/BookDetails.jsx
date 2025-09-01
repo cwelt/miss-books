@@ -59,7 +59,8 @@ export function BookDetails() {
     book.categories && book.categories.length
       ? book.categories.join(", ")
       : "Unknown";
-  const isOnSale = book.listPrice && book.listPrice.isOnSale;
+  const isOnSale = book.listPrice.isOnSale;
+  const oldPrice = isOnSale && Math.floor(book.listPrice.amount * 1.125);
   const pageCountCategory = getPageCountCategory(book.pageCount);
   const publishedDateCategory = getPublishedDateCategory(book.publishedDate);
   const priceCategory =
@@ -100,8 +101,11 @@ export function BookDetails() {
 
           <div className="price">
             <strong className={priceCategory}>
-              Price: {book.listPrice ? book.listPrice.amount : ""}{" "}
-              {book.listPrice ? book.listPrice.currencyCode : ""}
+              Price:{" "}
+              {isOnSale && (
+                <span className="old-price"> {`  ${oldPrice}  `} </span>
+              )}{" "}
+              {book.listPrice.amount} {book.listPrice.currencyCode}
             </strong>
             {isOnSale && <span className="on-sale">On Sale!</span>}
           </div>

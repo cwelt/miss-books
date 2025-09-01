@@ -138,6 +138,25 @@
   color: red;
 }
 
+.details-info .price .old-price {
+  text-decoration: line-through;
+  font-size: 0.8rem;
+  color: #020202;
+  position: relative;
+  display: inline-block;
+}
+
+.details-info .price .old-price::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid red;
+  transform: rotate(-15deg);
+  transform-origin: left center;
+}
+
 /* Stylish form elements */
 select,
 button {
