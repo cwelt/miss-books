@@ -22,10 +22,6 @@ export function BookDetails() {
       });
   }
 
-  function onNavigateBack() {
-    navigate("/book");
-  }
-
   if (!book) return <h1>Loading book details...</h1>;
 
   const authors =
@@ -91,7 +87,9 @@ export function BookDetails() {
         <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
       </nav>
       <hr />
-      <button onClick={onNavigateBack}>Back to Book List</button>
+      <button>
+        <Link to={"/book"}> Back to Book List</Link>
+      </button>
     </section>
   );
 }
