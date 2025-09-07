@@ -13,6 +13,7 @@ export const bookService = {
   getDefaultFilter,
   getBookCategories,
   removeAllBooks,
+  addReview,
 };
 
 /* For Debug (easy access from console):
@@ -235,6 +236,16 @@ function _enrichBookDetails(book) {
   book = _setPublishedDateCategory(book);
   book = _setPriceCategory(book);
   return book;
+}
+
+function addReview(bookId, review) {
+  get(bookId, (enrichData = false))
+    .then((book) => {
+      if (book.reviews) book.reviews = [...book.reviews, review];
+      else book.reviews = [review];
+    })
+    .then(save)
+    .then(() => book);
 }
 
 const booksDemoData = [
