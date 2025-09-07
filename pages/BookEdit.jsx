@@ -1,12 +1,24 @@
 import { bookService } from "../services/book.service.js";
 //import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 
-const { useState } = React;
+const { useState, useEffect } = React;
+const { useNavigate, useParams } = ReactRouterDOM;
 
-export function BookEdit({ book, onCreated, onUpdated, onCanceled }) {
-  const [bookToEdit, setBookToEdit] = useState(
-    book ? { ...book } : bookService.getEmptyBook()
-  );
+export function BookEdit() {
+  const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook());
+  const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.bookId) loadBook();
+  }, []);
+
+  function loadBook() {
+    bookService
+      .get(params.bookId)
+      .then(setBookToEdit)
+      .catch((err) => console.log("err:", err));
+  }
 
   function handleChange({ target }) {
     const field = target.name;
@@ -77,7 +89,7 @@ export function BookEdit({ book, onCreated, onUpdated, onCanceled }) {
         />
 
         <button>Save</button>
-        <button type="button" onClick={onCanceled}>
+        <button type="button" onClick={() => navigate("/book")}>
           Cancel
         </button>
       </form>

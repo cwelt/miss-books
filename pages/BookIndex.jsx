@@ -6,30 +6,33 @@ import { bookService } from "../services/book.service.js";
 import { ToggleButton } from "../cmps/ToggleButton.jsx";
 
 const { useState, useEffect } = React;
-const { Outlet } = ReactRouterDOM;
+const { Link, useSearchParams, Outlet } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
   const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter());
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
+    loadBooks();
+  }, [filterBy]);
+
+  function loadBooks() {
     bookService
       .query(filterBy)
-      .then((books) => setBooks(books))
+      .then(setBooks)
       .catch((err) => {
-        console.error("err:", err);
-        // showErrorMsg("Cannot load books");
+        //showErrorMsg("Problems getting books");
+        console.log("Problems getting books:", err);
       });
-  }, [filterBy]);
+  }
 
   function onRemoveBook(bookId) {
     bookService
       .remove(bookId)
       .then(() => {
         setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
-        showSuccessMsg(`Book removed`);
+        //showSuccessMsg(`Book removed`);
+        console.log("Book removed", bookId);
       })
       .catch((err) => {
         console.log("err:", err);
@@ -42,76 +45,19 @@ export function BookIndex() {
     setBooks([]);
   }
 
-  function onBookCreated(savedBook) {
-    setBooks([...books, savedBook]);
-    setIsEdit(false);
-  }
-
-  function onBookUpdated(savedBook) {
-    setBooks(
-      books.map((book) => (book.id === savedBook.id ? savedBook : book))
-    );
-    setSelectedBook(null);
-    setIsEdit(false);
-  }
-
+  if (!books) return <div>Loading...</div>;
   return (
     <section className="book-index">
       <h2>Its all about Books 📖</h2>
       <button onClick={onRemoveAllBooks}> Remove All Books </button>
-      {!selectedBook && (
-        <button hidden onClick={() => setIsEdit(true)}>
-          Add Book
-        </button>
-      )}
+      <button>
+        <Link to={"/book/edit"}>Add Book</Link>
+      </button>
 
-      {/* For adding a book */}
-      {isEdit && !selectedBook && (
-        <BookEdit
-          onCreated={onBookCreated}
-          onCanceled={() => {
-            setIsEdit(false);
-          }}
-        />
-      )}
-
-      {!selectedBook && (
-        <section>
-          <BookFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
-          <BookList
-            books={books}
-            onSelect={setSelectedBook}
-            onRemove={onRemoveBook}
-          />
-        </section>
-      )}
-      {selectedBook && (
-        <section>
-          {!isEdit && (
-            <section>
-              <BookDetails book={selectedBook} />
-              <button onClick={() => setSelectedBook(null)}>Close</button>
-            </section>
-          )}
-          {/* For updating a book */}
-          {isEdit && false && (
-            <BookEdit
-              book={selectedBook}
-              onUpdated={onBookUpdated}
-              onCanceled={() => {
-                setIsEdit(false);
-              }}
-            />
-          )}
-          <span>Switch to {isEdit ? "view" : "edit"} </span>
-          <ToggleButton val={isEdit} setVal={setIsEdit} />
-        </section>
-      )}
-      {false && (
-        <section>
-          <Outlet />
-        </section>
-      )}
+      <section>
+        <BookFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
+        <BookList books={books} onRemove={onRemoveBook} />
+      </section>
     </section>
   );
 }
