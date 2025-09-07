@@ -26,8 +26,12 @@ export function BookEdit() {
     {
       name: "authors",
       label: "Authors",
-      type: "text",
-      transform: (val) => val.split(",").map((s) => s.trim()),
+      type: "textarea",
+      transform: (val) =>
+        val
+          .split("\n,") // split by line breaks
+          .map((s) => s.trim()) // remove extra spaces
+          .filter(Boolean), // remove empty lines
     },
     { name: "publishedDate", label: "Published Date", type: "number" },
     { name: "description", label: "Description", type: "textarea" },
@@ -69,7 +73,7 @@ export function BookEdit() {
         break;
       case "text":
       case "textarea":
-        value = rawValue.trim();
+        value = rawValue;
         break;
       default:
         value = rawValue;
@@ -129,7 +133,7 @@ export function BookEdit() {
                 <textarea
                   id={name}
                   name={name}
-                  value={value}
+                  value={Array.isArray(value) ? value.join("\n") : value}
                   onChange={handleChange}
                 />
               ) : (
