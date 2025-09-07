@@ -85,8 +85,38 @@ function save(book) {
   }
 }
 
-function getEmptyBook(title = "", author = "", price = 0) {
-  return { title, author, price };
+function getEmptyBook(
+  title = "",
+  subtitle = "",
+  authors = [],
+  amount = 0,
+  currencyCode = "USD",
+  isOnSale = false,
+  publishedDate = new Date().getFullYear(),
+  description = "",
+  pageCount = 0,
+  categories = [],
+  thumbnail = `http://coding-academy.org/books-photos/${Math.floor(
+    Math.random() * 20 + 1
+  )}.jpg`,
+  language = "en"
+) {
+  return {
+    title,
+    subtitle,
+    authors: [...authors],
+    publishedDate,
+    description,
+    listPrice: {
+      amount,
+      currencyCode,
+      isOnSale: isOnSale,
+    },
+    pageCount,
+    categories: [...categories],
+    thumbnail,
+    language,
+  };
 }
 
 function getDefaultFilter(
@@ -153,8 +183,8 @@ function _createBooks(useDemoData = false) {
   return books;
 }
 
-function _createBook(title, author, price) {
-  const book = getEmptyBook(title, author, price);
+function _createBook(...args) {
+  const book = getEmptyBook(...args);
   book.id = utilService.makeId();
   return book;
 }
