@@ -1,4 +1,5 @@
 import { bookService } from "../services/book.service.js";
+import { ToggleButton } from "../cmps/ToggleButton.jsx";
 
 const { useState, useEffect } = React;
 const { useParams, useNavigate, Link } = ReactRouterDOM;
@@ -87,9 +88,14 @@ export function BookDetails() {
         <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
       </nav>
       <hr />
-      <button>
-        <Link to={"/book"}> Back to Book List</Link>
-      </button>
+      <section className="controls">
+        <button>
+          <Link to={`/book/edit/${book.id}`}> Edit Book</Link>
+        </button>
+        <button>
+          <Link to={"/book"}> Back to Book List</Link>
+        </button>
+      </section>
     </section>
   );
 }
