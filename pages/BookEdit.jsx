@@ -20,11 +20,45 @@ export function BookEdit() {
       .catch((err) => console.log("err:", err));
   }
 
+  const bookFormSchema = [
+    { name: "title", label: "Title", type: "text" },
+    { name: "subtitle", label: "Subtitle", type: "text" },
+    {
+      name: "authors",
+      label: "Authors",
+      type: "text",
+      transform: (val) => val.split(",").map((s) => s.trim()),
+    },
+    { name: "publishedDate", label: "Published Date", type: "number" },
+    { name: "description", label: "Description", type: "textarea" },
+    { name: "pageCount", label: "Page Count", type: "number" },
+    {
+      name: "categories",
+      label: "Categories",
+      type: "text",
+      transform: (val) => val.split(",").map((s) => s.trim()),
+    },
+    { name: "amount", label: "Price", type: "number", nested: "listPrice" },
+    {
+      name: "currencyCode",
+      label: "Currency",
+      type: "text",
+      nested: "listPrice",
+    },
+    {
+      name: "isOnSale",
+      label: "On Sale",
+      type: "checkbox",
+      nested: "listPrice",
+    },
+  ];
+
   function handleChange({ target }) {
     const { name: fieldName, type, value: rawValue, checked } = target;
-    let value;
+    const fieldMeta = bookFormSchema.find((f) => f.name === fieldName);
+    if (!fieldMeta) return;
 
-    // Normalize value based on input type
+    let value;
     switch (type) {
       case "number":
       case "range":
@@ -41,28 +75,24 @@ export function BookEdit() {
         value = rawValue;
     }
 
-    // Handle special fields
-    if (["authors", "categories"].includes(fieldName)) {
-      value = value.split(",").map((item) => item.trim());
+    if (fieldMeta.transform) {
+      value = fieldMeta.transform(value);
     }
 
-    // Handle nested listPrice fields
-    if (["amount", "currencyCode", "isOnSale"].includes(fieldName)) {
-      setBookToEdit((prevBook) => ({
-        ...prevBook,
-        listPrice: {
-          ...prevBook.listPrice,
+    if (fieldMeta.nested) {
+      setBookToEdit((prev) => ({
+        ...prev,
+        [fieldMeta.nested]: {
+          ...prev[fieldMeta.nested],
           [fieldName]: value,
         },
       }));
-      return;
+    } else {
+      setBookToEdit((prev) => ({
+        ...prev,
+        [fieldName]: value,
+      }));
     }
-
-    // Handle top-level fields
-    setBookToEdit((prevBook) => ({
-      ...prevBook,
-      [fieldName]: value,
-    }));
   }
 
   function onSaveBook(ev) {
@@ -80,139 +110,48 @@ export function BookEdit() {
       });
   }
 
-  const {
-    title = "",
-    subtitle = "",
-    authors = [],
-    publishedDate = "",
-    description = "",
-    pageCount = "",
-    categories = [],
-    listPrice: { amount = 0, currencyCode = "USD", isOnSale = false } = {
-      amount: 0,
-      currencyCode: "USD",
-      isOnSale: false,
-    },
-  } = bookToEdit;
-
-  console.log(
-    "bookToEdit:",
-    bookToEdit,
-    "listPrice:",
-    bookToEdit.listPrice,
-    "amount:",
-    amount
-  );
-
-  const authorsString = authors ? authors.join(", ") : "";
-  const categoriesString = categories ? categories.join(", ") : "";
+  if (!bookToEdit) return <div>Loading book...</div>;
 
   return (
     <section className="book-edit">
       <form onSubmit={onSaveBook}>
-        {/* Title */}
-        <label htmlFor="title">Title:</label>
-        <input
-          onChange={handleChange}
-          value={title}
-          type="text"
-          name="title"
-          id="title"
-        />
+        {bookFormSchema.map(({ name, label, type }) => {
+          const value =
+            name in bookToEdit ? bookToEdit[name] : bookToEdit.listPrice[name];
 
-        {/* Subtitle */}
-        <label htmlFor="subtitle">Subtitle:</label>
-        <input
-          onChange={handleChange}
-          value={subtitle}
-          type="text"
-          name="subtitle"
-          id="subtitle"
-        />
+          return (
+            <div
+              key={name}
+              className={type === "checkbox" ? "checkbox-group" : "form-group"}
+            >
+              <label htmlFor={name}>{label}:</label>
+              {type === "textarea" ? (
+                <textarea
+                  id={name}
+                  name={name}
+                  value={value}
+                  onChange={handleChange}
+                />
+              ) : (
+                <input
+                  id={name}
+                  name={name}
+                  type={type}
+                  value={type === "checkbox" ? undefined : value}
+                  checked={type === "checkbox" ? value : undefined}
+                  onChange={handleChange}
+                />
+              )}
+            </div>
+          );
+        })}
 
-        {/* Authors */}
-        <label htmlFor="authors">Authors:</label>
-        <input
-          onChange={handleChange}
-          value={authorsString}
-          type="text"
-          name="authors"
-          id="authors"
-        />
-
-        {/* Published Date */}
-        <label htmlFor="publishedDate">Published Date:</label>
-        <input
-          onChange={handleChange}
-          value={publishedDate}
-          type="number"
-          name="publishedDate"
-          id="publishedDate"
-        />
-
-        {/* Description */}
-        <label htmlFor="description">Description:</label>
-        <textarea
-          onChange={handleChange}
-          value={description}
-          name="description"
-          id="description"
-        />
-
-        {/* Page Count */}
-        <label htmlFor="pageCount">Page Count:</label>
-        <input
-          onChange={handleChange}
-          value={pageCount}
-          type="number"
-          name="pageCount"
-          id="pageCount"
-        />
-
-        {/* Categories */}
-        <label htmlFor="categories">Categories:</label>
-        <input
-          onChange={handleChange}
-          value={categoriesString}
-          type="text"
-          name="categories"
-          id="categories"
-        />
-
-        {/* Price */}
-        <label htmlFor="amount">Price:</label>
-        <input
-          onChange={handleChange}
-          value={amount}
-          type="number"
-          name="amount"
-          id="amount"
-        />
-
-        {/* Currency */}
-        <label htmlFor="currencyCode">Currency:</label>
-        <input
-          onChange={handleChange}
-          value={currencyCode}
-          type="text"
-          name="currencyCode"
-          id="currencyCode"
-        />
-
-        {/* On Sale */}
-        <label htmlFor="isOnSale">On Sale:</label>
-        <input
-          onChange={handleChange}
-          checked={isOnSale}
-          type="checkbox"
-          name="isOnSale"
-          id="isOnSale"
-        />
-
-        <button>Save</button>
-        <button type="button" onClick={() => navigate("/book")}>
-          Cancel
-        </button>
+        <div className="form-actions">
+          <button>Save</button>
+          <button type="button" onClick={() => navigate("/book")}>
+            Cancel
+          </button>
+        </div>
       </form>
     </section>
   );

@@ -85,8 +85,36 @@ function save(book) {
   }
 }
 
-function getEmptyBook(title = "", author = "", price = 0) {
-  return { title, author, price };
+function getEmptyBook(
+  title = "",
+  subtitle = "",
+  authors = [],
+  amount = 0,
+  currencyCode = "USD",
+  isOnSale = false,
+  publishedDate = new Date().getFullYear(),
+  description = "",
+  pageCount = 0,
+  categories = [],
+  thumbnail = "",
+  language = "en"
+) {
+  return {
+    title,
+    subtitle,
+    authors: [...authors],
+    publishedDate,
+    description,
+    listPrice: {
+      amount,
+      currencyCode,
+      isOnSale: isOnSale,
+    },
+    pageCount,
+    categories,
+    thumbnail,
+    language,
+  };
 }
 
 function getDefaultFilter(
