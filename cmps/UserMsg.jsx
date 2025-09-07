@@ -25,11 +25,13 @@ export function UserMsg() {
 
   if (!msg) return null;
   return (
-    <section className={`user-msg ${msg.type}`}>
-      <h4>{msg.txt}</h4>
-      <button onClick={onCloseMsg} className="close-btn">
-        X
-      </button>
-    </section>
+    <div className="user-msg-overlay">
+      <section className={`user-msg ${msg.type}`}>
+        <h4>{msg.txt}</h4>
+        <button onClick={onCloseMsg} className="close-btn">
+          X
+        </button>
+      </section>
+    </div>
   );
 }

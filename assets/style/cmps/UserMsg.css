@@ -1,54 +1,64 @@
-.user-msg {
+/* Full-screen overlay */
+.user-msg-overlay {
   position: fixed;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px); /* Blurs background */
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark overlay */
   display: flex;
-  flex-direction: column;
-  padding: 0.75rem 0.5rem 0rem;
-  margin: 0.5rem;
-  min-width: 100px;
-  max-width: 350px;
-  border-radius: 0.5rem;
-  background-color: #f1f1f1;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  animation: slideIn 0.3s ease-in-out;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Modal box */
+.user-msg {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  max-width: 480px;
   text-align: center;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 1.25rem; /* Bigger font */
+  line-height: 1.6; /* More breathing room */
+  color: #222; /* Darker for better contrast */
+  position: relative;
 }
 
-.user-msg.success {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.user-msg.error {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
+/* Optional: make the message text bold and standout */
 .user-msg h4 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  padding-inline: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: black;
 }
 
-.user-msg h4 > p {
-  margin: 0;
-}
-
-.user-msg button {
-  background-color: hsl(0 0% 100%/0.35);
+/* Close button styling */
+.user-msg .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
   border: none;
+  font-size: 1.4rem;
+  color: #666;
   cursor: pointer;
-  font-size: 0.8rem;
-  width: fit-content;
-  aspect-ratio: 1;
-  align-self: end;
-  color: inherit;
-  border-radius: 50%;
-  margin-top: 0.5rem;
-  margin-right: 0;
+  transition: color 0.3s ease;
 }
 
-.user-msg button:hover {
-  background-color: hsl(0 0% 100%/0.55);
+.user-msg .close-btn:hover {
+  color: #000;
+}
+
+/* Message types */
+.user-msg.success {
+  border-left: 6px solid #4caf50;
+  background-color: lightgreen;
+}
+.user-msg.error {
+  border-left: 6px solid #f44336;
+  background-color: #f9948c;
 }
