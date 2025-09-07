@@ -90,10 +90,10 @@ export function BookDetails() {
       <hr />
       <section className="controls">
         <button>
-          <Link to={`/book/edit/${book.id}`}> Edit Book</Link>
+          <Link to={`/book/edit/${book.id}`}>Edit Book ✏️</Link>
         </button>
         <button>
-          <Link to={"/book"}> Back to Book List</Link>
+          <Link to={"/book"}> Back to Book List ↩️</Link>
         </button>
       </section>
     </section>

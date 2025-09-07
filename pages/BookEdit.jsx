@@ -2,7 +2,7 @@ import { bookService } from "../services/book.service.js";
 //import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 
 const { useState, useEffect } = React;
-const { useNavigate, useParams } = ReactRouterDOM;
+const { useNavigate, useParams, Link } = ReactRouterDOM;
 
 export function BookEdit() {
   const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook());
@@ -151,9 +151,15 @@ export function BookEdit() {
         })}
 
         <div className="form-actions">
-          <button>Save</button>
-          <button type="button" onClick={() => navigate("/book")}>
-            Cancel
+          <button>Save 💾</button>
+          <button
+            type="button"
+            onClick={() => navigate(`/book/${bookToEdit.id}`)}
+          >
+            Cancel ↻
+          </button>
+          <button>
+            <Link to={"/book"}> Back to Book List ↩️</Link>
           </button>
         </div>
       </form>
