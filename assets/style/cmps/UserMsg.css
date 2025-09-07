@@ -1,24 +1,64 @@
-.user-msg {
-  background-color: lightgray;
-  padding: 0.5em 1em;
+/* Full-screen overlay */
+.user-msg-overlay {
   position: fixed;
-  bottom: 1em;
-  right: 1em;
-  color: white;
-  font-weight: bold;
-  border: 3px solid black;
-  border-radius: 2px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px); /* Blurs background */
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent dark overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
+/* Modal box */
+.user-msg {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  max-width: 480px;
+  text-align: center;
+  font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+  font-size: 1.25rem; /* Bigger font */
+  line-height: 1.6; /* More breathing room */
+  color: #222; /* Darker for better contrast */
+  position: relative;
+}
+
+/* Optional: make the message text bold and standout */
+.user-msg h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+/* Close button styling */
+.user-msg .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.user-msg .close-btn:hover {
+  color: #000;
+}
+
+/* Message types */
 .user-msg.success {
-  background-color: var(--clr1);
+  border-left: 6px solid #4caf50;
+  background-color: lightgreen;
 }
-
 .user-msg.error {
-  background-color: var(--clr2);
-}
-
-.user-msg button {
-  float: right;
-  margin: 1em;
+  border-left: 6px solid #f44336;
+  background-color: #f9948c;
 }

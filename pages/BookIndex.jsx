@@ -21,7 +21,7 @@ export function BookIndex() {
       .query(filterBy)
       .then(setBooks)
       .catch((err) => {
-        //showErrorMsg("Problems getting books");
+        showErrorMsg("Problems getting books");
         console.log("Problems getting books:", err);
       });
   }
@@ -31,12 +31,12 @@ export function BookIndex() {
       .remove(bookId)
       .then(() => {
         setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
-        //showSuccessMsg(`Book removed`);
+        showSuccessMsg(`Book '${bookId}' removed successfully`);
         console.log("Book removed", bookId);
       })
       .catch((err) => {
         console.log("err:", err);
-        // showErrorMsg("Cannot remove book " + bookId);
+        showErrorMsg(`Cannot remove book '${bookId}'.`);
       });
   }
 
