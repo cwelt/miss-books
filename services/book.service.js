@@ -96,7 +96,9 @@ function getEmptyBook(
   description = "",
   pageCount = 0,
   categories = [],
-  thumbnail = "",
+  thumbnail = `http://coding-academy.org/books-photos/${Math.floor(
+    Math.random() * 20 + 1
+  )}.jpg`,
   language = "en"
 ) {
   return {
@@ -111,7 +113,7 @@ function getEmptyBook(
       isOnSale: isOnSale,
     },
     pageCount,
-    categories,
+    categories: [...categories],
     thumbnail,
     language,
   };
@@ -181,8 +183,8 @@ function _createBooks(useDemoData = false) {
   return books;
 }
 
-function _createBook(title, author, price) {
-  const book = getEmptyBook(title, author, price);
+function _createBook(...args) {
+  const book = getEmptyBook(...args);
   book.id = utilService.makeId();
   return book;
 }
