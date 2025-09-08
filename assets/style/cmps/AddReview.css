@@ -1,39 +1,41 @@
 .review-add.card {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
+  max-width: 360px;
+  margin: 1.2rem auto;
+  margin-top: auto;
+  margin-left: 0;
+  padding: 1.2rem;
   background: linear-gradient(135deg, #f5e9b0f6, #f3d863);
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   font-family: "Segoe UI", sans-serif;
 }
 
 .review-add .card-title {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: black;
+  text-align: left;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #222;
 }
 
 .review-form .form-group {
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.8rem;
   display: flex;
   flex-direction: column;
 }
 
 .form-group label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #555;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: #444;
 }
 
 .form-input,
 .form-select {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
 }
 
 .form-input:focus,
@@ -44,20 +46,21 @@
 
 .controlls {
   text-align: center;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .btn-save {
   background-color: #f7d6f0;
-  color: black;
-  padding: 0.7rem 1.4rem;
-  border: solid 1px;
-  border-radius: 9px;
-  font-size: 1rem;
+  color: #222;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .btn-save:hover {
   background-color: #574fd6;
+  color: #fff;
 }

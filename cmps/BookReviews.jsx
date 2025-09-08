@@ -1,7 +1,8 @@
 export function BookReviews({ reviews, onRemove }) {
   if (!reviews || reviews.length === 0) return;
+
   return (
-    <section>
+    <section className="book-reviews">
       <h3>Reviews:</h3>
       <table>
         <thead>

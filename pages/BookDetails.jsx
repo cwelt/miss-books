@@ -90,6 +90,7 @@ export function BookDetails() {
           </div>
         </div>
       </section>
+
       <section className="review-layout">
         <div className="review-form-wrapper">
           <AddReview bookId={params.bookId} onAddReview={setBook} />
@@ -98,10 +99,6 @@ export function BookDetails() {
           <BookReviews reviews={book.reviews} onRemove={onRemoveReview} />
         </div>
       </section>
-      <nav className="next-prev">
-        <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
-        <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
-      </nav>
       <hr />
       <section className="controls">
         <button>
@@ -110,6 +107,11 @@ export function BookDetails() {
         <button>
           <Link to={"/book"}> Back to Book List ↩️</Link>
         </button>
+        <hr />
+        <nav className="next-prev">
+          <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
+          <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
+        </nav>
       </section>
     </section>
   );
