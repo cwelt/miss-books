@@ -266,12 +266,17 @@ function addReview(bookId, review) {
 }
 
 function removeReview(bookId, reviewId) {
-  const book = get(bookId, false)
+  return get(bookId, false)
     .then((book) => {
       book.reviews = book.reviews.filter((review) => review.id !== reviewId);
+      console.log("updated reviews:", book.reviews);
       return book;
     })
-    .then(save);
+    .then(save)
+    .catch((err) => {
+      console.log(`error removing review ${reviewId} for book ${bookId}:`, err);
+      throw err;
+    });
 }
 
 const booksDemoData = [
