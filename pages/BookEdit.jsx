@@ -105,7 +105,6 @@ export function BookEdit() {
       .save(bookToEdit)
       .then((savedBook) => {
         showSuccessMsg(`Book Saved (id: ${savedBook.id})`);
-        console.log(`Book Saved (id: ${savedBook.id})`);
         navigate("/book/" + savedBook.id);
       })
       .catch((err) => {

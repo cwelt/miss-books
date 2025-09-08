@@ -1,0 +1,61 @@
+.book-reviews {
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+  overflow-x: auto;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.book-reviews h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #222;
+}
+
+.book-reviews table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background-color: #fef5d0;
+}
+
+.book-reviews thead {
+  background-color: #fcd021;
+}
+
+.book-reviews th,
+.book-reviews td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.book-reviews th {
+  font-weight: 1500;
+  color: #333;
+}
+
+.book-reviews td {
+  color: #444;
+  vertical-align: middle;
+}
+
+.book-reviews tr:hover {
+  background-color: #f9f9f9;
+}
+
+.book-reviews button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.book-reviews button:hover {
+  color: #d00;
+  transform: scale(1.1);
+}

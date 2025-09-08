@@ -1,5 +1,6 @@
 import { bookService } from "../services/book.service.js";
-import { ToggleButton } from "../cmps/ToggleButton.jsx";
+import { AddReview } from "../cmps/AddReview.jsx";
+import { BookReviews } from "../cmps/BookReviews.jsx";
 
 const { useState, useEffect } = React;
 const { useParams, useNavigate, Link } = ReactRouterDOM;
@@ -23,6 +24,12 @@ export function BookDetails() {
       });
   }
 
+  function onRemoveReview(reviewId) {
+    const book = bookService
+      .removeReview(params.bookId, reviewId)
+      .then(setBook);
+  }
+
   if (!book) return <h1>Loading book details...</h1>;
 
   const authors =
@@ -33,7 +40,7 @@ export function BookDetails() {
     book.categories && book.categories.length
       ? book.categories.join(", ")
       : "Unknown";
-  const isOnSale = book.listPrice.isOnSale;
+  const isOnSale = book.listPrice && book.listPrice.isOnSale;
   const oldPrice = isOnSale && Math.floor(book.listPrice.amount * 1.125);
 
   return (
@@ -45,7 +52,7 @@ export function BookDetails() {
           <strong>{authorsTitle}:</strong> {authors}
         </p>
       </header>
-      <div className="details-main">
+      <section className="details-main">
         <figure>
           <img src={book.thumbnail} alt={book.title} />
         </figure>
@@ -82,11 +89,16 @@ export function BookDetails() {
             {isOnSale && <span className="on-sale">On Sale!</span>}
           </div>
         </div>
-      </div>
-      <nav className="next-prev">
-        <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
-        <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
-      </nav>
+      </section>
+
+      <section className="review-layout">
+        <div className="review-form-wrapper">
+          <AddReview bookId={params.bookId} onAddReview={setBook} />
+        </div>
+        <div className="review-table">
+          <BookReviews reviews={book.reviews} onRemove={onRemoveReview} />
+        </div>
+      </section>
       <hr />
       <section className="controls">
         <button>
@@ -95,6 +107,11 @@ export function BookDetails() {
         <button>
           <Link to={"/book"}> Back to Book List ↩️</Link>
         </button>
+        <hr />
+        <nav className="next-prev">
+          <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
+          <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
+        </nav>
       </section>
     </section>
   );
