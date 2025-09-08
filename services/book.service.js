@@ -14,6 +14,7 @@ export const bookService = {
   getBookCategories,
   removeAllBooks,
   addReview,
+  removeReview,
 };
 
 /* For Debug (easy access from console):
@@ -249,6 +250,28 @@ function addReview(bookId, review) {
     })
     .then(save);
   return book;
+}
+
+function addReview(bookId, review) {
+  const reviewId = utilService.makeId();
+  review["id"] = reviewId;
+  const book = get(bookId, false)
+    .then((book) => {
+      if (book.reviews) book.reviews = [...book.reviews, review];
+      else book.reviews = [review];
+      return book;
+    })
+    .then(save);
+  return book;
+}
+
+function removeReview(bookId, reviewId) {
+  const book = get(bookId, false)
+    .then((book) => {
+      book.reviews = book.reviews.filter((review) => review.id !== reviewId);
+      return book;
+    })
+    .then(save);
 }
 
 const booksDemoData = [
