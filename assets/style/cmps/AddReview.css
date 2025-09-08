@@ -1,0 +1,63 @@
+.review-add.card {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5e9b0f6, #f3d863);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.review-add .card-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: black;
+}
+
+.review-form .form-group {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.form-input,
+.form-select {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #6c63ff;
+  outline: none;
+}
+
+.controlls {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.btn-save {
+  background-color: #f7d6f0;
+  color: black;
+  padding: 0.7rem 1.4rem;
+  border: solid 1px;
+  border-radius: 9px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+  background-color: #574fd6;
+}
