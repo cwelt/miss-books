@@ -1,5 +1,5 @@
 import { bookService } from "../services/book.service.js";
-import { ToggleButton } from "../cmps/ToggleButton.jsx";
+import { AddReview } from "../cmps/AddReview.jsx";
 
 const { useState, useEffect } = React;
 const { useParams, useNavigate, Link } = ReactRouterDOM;
@@ -45,7 +45,7 @@ export function BookDetails() {
           <strong>{authorsTitle}:</strong> {authors}
         </p>
       </header>
-      <div className="details-main">
+      <section className="details-main">
         <figure>
           <img src={book.thumbnail} alt={book.title} />
         </figure>
@@ -82,7 +82,32 @@ export function BookDetails() {
             {isOnSale && <span className="on-sale">On Sale!</span>}
           </div>
         </div>
-      </div>
+      </section>
+
+      <section>
+        <h3>Reviews:</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Rating</th>
+              <th>Read At</th>
+            </tr>
+          </thead>
+          <tbody>
+            {book.reviews.map((review) => (
+              <tr key={review.fullname + review.rating + review.readAt}>
+                <td>{review.fullname}</td>
+                <td>{"⭐".repeat(review.rating)}</td>
+                <td>{review.readAt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section className="addReview">
+        <AddReview bookId={params.bookId} onAddReview={setBook} />
+      </section>
       <nav className="next-prev">
         <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |
         <Link to={`/book/${book.nextBookId}`}>Next Book &rarr;</Link>
