@@ -1,5 +1,6 @@
 import { bookService } from "../services/book.service.js";
 import { AddReview } from "../cmps/AddReview.jsx";
+import { BookReviews } from "../cmps/BookReviews.jsx";
 
 const { useState, useEffect } = React;
 const { useParams, useNavigate, Link } = ReactRouterDOM;
@@ -83,30 +84,13 @@ export function BookDetails() {
           </div>
         </div>
       </section>
-
-      <section>
-        <h3>Reviews:</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Rating</th>
-              <th>Read At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {book.reviews.map((review) => (
-              <tr key={review.fullname + review.rating + review.readAt}>
-                <td>{review.fullname}</td>
-                <td>{"⭐".repeat(review.rating)}</td>
-                <td>{review.readAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-      <section className="addReview">
-        <AddReview bookId={params.bookId} onAddReview={setBook} />
+      <section className="review-layout">
+        <div className="review-form-wrapper">
+          <AddReview bookId={params.bookId} onAddReview={setBook} />
+        </div>
+        <div className="review-table">
+          <BookReviews reviews={book.reviews} />
+        </div>
       </section>
       <nav className="next-prev">
         <Link to={`/book/${book.prevBookId}`}> &larr; Previous Book</Link> |

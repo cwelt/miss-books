@@ -191,6 +191,25 @@ button:hover {
   color: var(--gray2);
 }
 
+.review-layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Makes it responsive */
+}
+
+.review-table {
+  flex: 1;
+  min-width: 300px;
+}
+
+.review-form-wrapper {
+  flex: 1;
+  min-width: 300px;
+}
+
 /* Pulse animation */
 @keyframes pulse {
   0% {
