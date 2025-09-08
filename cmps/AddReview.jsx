@@ -16,19 +16,16 @@ export function AddReview({ bookId, onAddReview }) {
     bookService
       .addReview(bookId, reviewToEdit)
       .then((book) => {
-        console.log("saved review ", reviewToEdit);
-        console.log(bookService.get(bookId));
-        showSuccessMsg("yay, review added");
+        showSuccessMsg("Review added successfully.");
         onAddReview(book);
         navigate(`/book/${bookId}`);
       })
       .catch((err) => {
         console.log("err:", err);
-        showErrorMsg("Cannot save review!");
+        showErrorMsg("Cannot save review.");
       });
   }
   function handleChange({ target }) {
-    console.log(target);
     let { value, name: field } = target;
     switch (target.type) {
       case "range":

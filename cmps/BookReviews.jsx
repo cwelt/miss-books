@@ -1,4 +1,4 @@
-export function BookReviews({ reviews }) {
+export function BookReviews({ reviews, onRemove }) {
   if (!reviews || reviews.length === 0) return;
   return (
     <section>
@@ -6,9 +6,10 @@ export function BookReviews({ reviews }) {
       <table>
         <thead>
           <tr>
-            <th>Full Name</th>
+            <th>Reviewer Name</th>
             <th>Rating</th>
             <th>Read At</th>
+            <th>Remove</th>
           </tr>
         </thead>
         <tbody>
@@ -17,6 +18,14 @@ export function BookReviews({ reviews }) {
               <td>{review.fullname}</td>
               <td>{"⭐".repeat(review.rating)}</td>
               <td>{review.readAt}</td>
+              <td>
+                <button
+                  onClick={() => onRemove(review.id)}
+                  title="Delete this book review."
+                >
+                  ❌
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
