@@ -250,4 +250,8 @@ button:hover {
   .price {
     font-size: 1rem;
   }
+
+  .review-layout {
+    flex-direction: column;
+  }
 }
