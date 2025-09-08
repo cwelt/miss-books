@@ -239,13 +239,16 @@ function _enrichBookDetails(book) {
 }
 
 function addReview(bookId, review) {
-  get(bookId, (enrichData = false))
+  const reviewId = utilService.makeId();
+  review["id"] = reviewId;
+  const book = get(bookId, false)
     .then((book) => {
       if (book.reviews) book.reviews = [...book.reviews, review];
       else book.reviews = [review];
+      return book;
     })
-    .then(save)
-    .then(() => book);
+    .then(save);
+  return book;
 }
 
 const booksDemoData = [
