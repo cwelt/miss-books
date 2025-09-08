@@ -24,6 +24,12 @@ export function BookDetails() {
       });
   }
 
+  function onRemoveReview(reviewId) {
+    const book = bookService
+      .removeReview(params.bookId, reviewId)
+      .then(setBook);
+  }
+
   if (!book) return <h1>Loading book details...</h1>;
 
   const authors =
@@ -34,7 +40,7 @@ export function BookDetails() {
     book.categories && book.categories.length
       ? book.categories.join(", ")
       : "Unknown";
-  const isOnSale = book.listPrice.isOnSale;
+  const isOnSale = book.listPrice && book.listPrice.isOnSale;
   const oldPrice = isOnSale && Math.floor(book.listPrice.amount * 1.125);
 
   return (
@@ -89,7 +95,7 @@ export function BookDetails() {
           <AddReview bookId={params.bookId} onAddReview={setBook} />
         </div>
         <div className="review-table">
-          <BookReviews reviews={book.reviews} />
+          <BookReviews reviews={book.reviews} onRemove={onRemoveReview} />
         </div>
       </section>
       <nav className="next-prev">

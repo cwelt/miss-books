@@ -269,7 +269,6 @@ function removeReview(bookId, reviewId) {
   return get(bookId, false)
     .then((book) => {
       book.reviews = book.reviews.filter((review) => review.id !== reviewId);
-      console.log("updated reviews:", book.reviews);
       return book;
     })
     .then(save)
