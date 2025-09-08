@@ -32,7 +32,6 @@ export function BookIndex() {
       .then(() => {
         setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
         showSuccessMsg(`Book '${bookId}' removed successfully`);
-        console.log("Book removed", bookId);
       })
       .catch((err) => {
         console.log("err:", err);
