@@ -306,8 +306,12 @@ function _normalizeGoogleBookData(googleBook) {
     description: googleBook.volumeInfo.description || "",
     pageCount: googleBook.volumeInfo.pageCount || 0,
     categories: [...googleBook.volumeInfo.categories] || [],
-    thumbnail: googleBook.volumeInfo.imageLinks.thumbnail || "",
-    language: googleBook.volumeInfo.imageLinks.language || "",
+    thumbnail:
+      (googleBook.volumeInfo.imageLinks &&
+        googleBook.volumeInfo.imageLinks.thumbnail) ||
+      googleBook.volumeInfo.previewLink ||
+      "",
+    language: googleBook.volumeInfo.language || "",
     listPrice: googleBook.saleInfo.retailPrice
       ? {
           amount: googleBook.saleInfo.retailPrice.amount,
