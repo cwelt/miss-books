@@ -1,4 +1,6 @@
 import { googleBookService } from "../services/google-book.service.js";
+import { bookService } from "../services/book.service.js";
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 
 const { useState } = React;
 
@@ -21,6 +23,17 @@ export function AddGoogleBook() {
 
   function handleAddBook(book) {
     console.log("adding book...", book);
+    bookService
+      .addGoogleBook(book)
+      .then((addedBook) =>
+        showSuccessMsg(
+          `Book ${addedBook.title} (${addedBook.id}) added successfully`
+        )
+      )
+      .catch((err) => {
+        console.error("Could not add book", err);
+        showErrorMsg(`Error occurred in attempt to add google book: ${err}`);
+      });
   }
 
   return (
