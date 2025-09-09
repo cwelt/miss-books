@@ -1,25 +1,30 @@
 import { googleBookService } from "../services/google-book.service.js";
 import { bookService } from "../services/book.service.js";
+import { utilService } from "../services/util.service.js";
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 
 export function AddGoogleBook(onAdd) {
+  const debounceDelayMS = 1200;
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const handleSearchBooksDebounce = useRef(
+    utilService.debounce(handleSearchBooks, debounceDelayMS)
+  ).current;
 
   useEffect(() => {
-    onSearch(query);
+    handleSearchBooksDebounce(query);
   }, [query]);
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("form submitted with: ", query);
-    onSearch(query);
+    handleSearchBooks(query);
   }
 
-  function onSearch(query) {
-    console.log("Searching...", query);
+  function handleSearchBooks(query) {
+    console.log("Submitting request to google API with ", query);
     // pass the query input to google book service and set search results to response
     const bookData = googleBookService.query(query);
     console.log("response from google service:", bookData);
@@ -52,9 +57,6 @@ export function AddGoogleBook(onAdd) {
           onChange={(e) => setQuery(e.target.value)}
           className="search-input"
         />
-        <button type="submit" className="search-button">
-          Go
-        </button>
       </form>
 
       <ul className="search-results">
