@@ -280,13 +280,19 @@ function removeReview(bookId, reviewId) {
 }
 
 function addGoogleBook(googleBook) {
+  // deconstruct the google book schema to our book DB schema
   const normalizedBook = _normalizeGoogleBookData(googleBook);
-  return storageService
-    .post(BOOK_KEY, normalizedBook, normalizedBook.id)
-    .catch((err) => {
-      console.log(`Error adding a google book to DB: err`);
-      throw err;
-    });
+
+  // check if given id already exists in DB, if so, return it
+  return get(normalizedBook.id).catch(() =>
+    // if "get" fails this is a new book, add it to DB
+    storageService
+      .post(BOOK_KEY, normalizedBook, normalizedBook.id)
+      .catch((err) => {
+        console.log(`Error adding a google book to DB: err`);
+        throw err;
+      })
+  );
 }
 
 function _normalizeGoogleBookData(googleBook) {
