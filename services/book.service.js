@@ -15,6 +15,7 @@ export const bookService = {
   removeAllBooks,
   addReview,
   removeReview,
+  addGoogleBook,
 };
 
 /* For Debug (easy access from console):
@@ -276,6 +277,48 @@ function removeReview(bookId, reviewId) {
       console.log(`error removing review ${reviewId} for book ${bookId}:`, err);
       throw err;
     });
+}
+
+function addGoogleBook(googleBook) {
+  const normalizedBook = _normalizeGoogleBookData(googleBook);
+  return storageService
+    .post(BOOK_KEY, normalizedBook, normalizedBook.id)
+    .catch((err) => {
+      console.log(`Error adding a google book to DB: err`);
+      throw err;
+    });
+}
+
+function _normalizeGoogleBookData(googleBook) {
+  console.log("normalizing ", googleBook);
+  const normalizedBook = {
+    id: googleBook.id,
+    title: googleBook.volumeInfo.title,
+    subtitle: googleBook.volumeInfo.subtitle,
+    authors: [...googleBook.volumeInfo.authors],
+    publishedDate: googleBook.volumeInfo.publishedDate.substring(0, 4), // extract year
+    description: googleBook.volumeInfo.description,
+    pageCount: googleBook.volumeInfo.pageCount,
+    categories: [...googleBook.volumeInfo.categories],
+    thumbnail: googleBook.volumeInfo.imageLinks.thumbnail,
+    language: googleBook.volumeInfo.imageLinks.language,
+    listPrice: googleBook.saleInfo.retailPrice
+      ? {
+          amount: googleBook.saleInfo.retailPrice.amount,
+          currencyCode: googleBook.saleInfo.retailPrice.currencyCode,
+          isOnSale:
+            (googleBook.saleInfo.retailPrice.amount <
+            googleBook.saleInfo.listPrice.amount
+              ? true
+              : false) || false,
+        }
+      : {
+          amount: 0,
+          currencyCode: "USD",
+          isOnSale: false,
+        },
+  };
+  return normalizedBook;
 }
 
 const booksDemoData = [
