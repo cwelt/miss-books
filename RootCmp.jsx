@@ -5,6 +5,7 @@ import { BookIndex } from "./pages/BookIndex.jsx";
 import { BookDetails } from "./pages/BookDetails.jsx";
 import { BookEdit } from "./pages/BookEdit.jsx";
 import { UserMsg } from "./cmps/UserMsg.jsx";
+import { AddGoogleBook } from "./pages/AddGoogleBook.jsx";
 
 const { useState } = React;
 const Router = ReactRouterDOM.HashRouter;
@@ -27,6 +28,7 @@ export function RootCmp() {
             <Route path="/book/:bookId" element={<BookDetails />} />
             <Route path="/book/edit" element={<BookEdit />} />
             <Route path="/book/edit/:bookId" element={<BookEdit />} />
+            <Route path="/add" element={<AddGoogleBook />} />
             <Route path="*" element={<h1>404 - Not Found</h1>} />
           </Routes>
         </main>
