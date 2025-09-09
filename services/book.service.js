@@ -15,6 +15,7 @@ export const bookService = {
   removeAllBooks,
   addReview,
   removeReview,
+  addGoogleBook,
 };
 
 /* For Debug (easy access from console):
@@ -276,6 +277,63 @@ function removeReview(bookId, reviewId) {
       console.log(`error removing review ${reviewId} for book ${bookId}:`, err);
       throw err;
     });
+}
+
+function addGoogleBook(googleBook) {
+  // deconstruct the google book schema to our book DB schema
+  const normalizedBook = _normalizeGoogleBookData(googleBook);
+
+  // check if given id already exists in DB, if so, return it
+  return get(normalizedBook.id).catch(() =>
+    // if "get" fails this is a new book, add it to DB
+    storageService
+      .post(BOOK_KEY, normalizedBook, normalizedBook.id)
+      .catch((err) => {
+        console.log(`Error adding a google book to DB: err`);
+        throw err;
+      })
+  );
+}
+
+function _normalizeGoogleBookData(googleBook) {
+  const normalizedBook = {
+    id: googleBook.id,
+    title: googleBook.volumeInfo.title || "",
+    subtitle: googleBook.volumeInfo.subtitle || "",
+    authors:
+      (googleBook.volumeInfo.authors && [...googleBook.volumeInfo.authors]) ||
+      [],
+    publishedDate: (googleBook.volumeInfo.publishedDate || "1970").substr(0, 4), // extract year
+    description: googleBook.volumeInfo.description || "",
+    pageCount: googleBook.volumeInfo.pageCount || 0,
+    categories:
+      (googleBook.volumeInfo.categories && [
+        ...googleBook.volumeInfo.categories,
+      ]) ||
+      [],
+    thumbnail:
+      (googleBook.volumeInfo.imageLinks &&
+        googleBook.volumeInfo.imageLinks.thumbnail) ||
+      googleBook.volumeInfo.previewLink ||
+      "",
+    language: googleBook.volumeInfo.language || "",
+    listPrice: googleBook.saleInfo.retailPrice
+      ? {
+          amount: googleBook.saleInfo.retailPrice.amount,
+          currencyCode: googleBook.saleInfo.retailPrice.currencyCode,
+          isOnSale:
+            (googleBook.saleInfo.retailPrice.amount <
+            googleBook.saleInfo.listPrice.amount
+              ? true
+              : false) || false,
+        }
+      : {
+          amount: 0,
+          currencyCode: "USD",
+          isOnSale: false,
+        },
+  };
+  return normalizedBook;
 }
 
 const booksDemoData = [
