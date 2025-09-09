@@ -8,17 +8,13 @@ const { useState, useEffect, useRef } = React;
 export function AddGoogleBook(onAdd) {
   const debounceDelayMS = 1200;
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
   const handleSearchBooksDebounce = useRef(
     utilService.debounce(handleSearchBooks, debounceDelayMS)
   ).current;
 
   useEffect(() => {
-    setSearchResults([]);
-  }, []);
-
-  useEffect(() => {
-    handleSearchBooksDebounce(query);
+    if (query) handleSearchBooksDebounce(query);
   }, [query]);
 
   function handleSubmit(e) {
@@ -27,6 +23,7 @@ export function AddGoogleBook(onAdd) {
     handleSearchBooks(query);
   }
 
+  // performs request to google API with the query input
   function handleSearchBooks(query) {
     console.log("Submitting request to google API with ", query);
     // pass the query input to google book service and set search results to response
@@ -36,6 +33,7 @@ export function AddGoogleBook(onAdd) {
     });
   }
 
+  // handles the add button to add a new google book to book list DB
   function handleAddBook(book) {
     console.log("adding book...", book);
     bookService
@@ -52,28 +50,75 @@ export function AddGoogleBook(onAdd) {
       });
   }
 
+  // render
   return (
-    <section className="google-book-search">
-      <form className="search-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Search books..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="search-input"
-        />
-      </form>
+    <React.Fragment>
+      <section className="google-search-section">
+        <form className="google-search-form" onSubmit={handleSubmit}>
+          <label htmlFor="google-search-input" className="google-search-label">
+            Search Books
+          </label>
+          <input
+            id="google-search-input"
+            type="text"
+            placeholder="Search books by title..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="google-search-input"
+          />
+          <button type="submit" className="google-search-button">
+            Search
+          </button>
+        </form>
+      </section>
 
-      <ul className="search-results">
-        {searchResults.map((book) => (
-          <li key={book.id} className="book-item">
-            <div className="book-info">
-              <h4>{book.volumeInfo.title}</h4>
-              <button onClick={() => handleAddBook(book)}>+</button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </section>
+      {searchResults && searchResults.length > 0 && (
+        <section className="google-results-section">
+          <h2 className="google-results-title">Search Results</h2>
+          <table className="google-results-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Publish Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {searchResults.map((book) => (
+                <tr key={book.id}>
+                  <td>
+                    <h4 className="google-book-title">
+                      {book.volumeInfo.title}
+                    </h4>
+                    <p className="google-book-subtitle">
+                      {book.volumeInfo.subtitle}
+                    </p>
+                  </td>
+                  <td>
+                    {(book.volumeInfo.authors &&
+                      book.volumeInfo.authors.join(", ")) ||
+                      "N/A"}
+                  </td>
+                  <td>
+                    {(book.volumeInfo.publishedDate &&
+                      book.volumeInfo.publishedDate.substr(0, 4)) ||
+                      "N/A"}
+                  </td>
+                  <td>
+                    <button
+                      className="google-add-button"
+                      onClick={() => handleAddBook(book)}
+                    >
+                      ➕ Add
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+    </React.Fragment>
   );
 }
