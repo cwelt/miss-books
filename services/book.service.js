@@ -296,7 +296,6 @@ function addGoogleBook(googleBook) {
 }
 
 function _normalizeGoogleBookData(googleBook) {
-  console.log("normalizing ", googleBook);
   const normalizedBook = {
     id: googleBook.id,
     title: googleBook.volumeInfo.title || "",

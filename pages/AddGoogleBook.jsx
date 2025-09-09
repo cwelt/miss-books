@@ -19,23 +19,19 @@ export function AddGoogleBook(onAdd) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("form submitted with: ", query);
     handleSearchBooks(query);
   }
 
   // performs request to google API with the query input
   function handleSearchBooks(query) {
-    console.log("Submitting request to google API with ", query);
     // pass the query input to google book service and set search results to response
     googleBookService.query(query).then((bookData) => {
-      console.log("response from google service:", bookData);
       setSearchResults(bookData);
     });
   }
 
   // handles the add button to add a new google book to book list DB
   function handleAddBook(book) {
-    console.log("adding book...", book);
     bookService
       .addGoogleBook(book)
       .then((addedBook) => {
