@@ -3,10 +3,30 @@ export const googleBookService = {
 };
 
 function query(queryTxt) {
-  return data;
+  const baseUrl = "https://www.googleapis.com/books/v1/volumes";
+  const query = `?printType=books&q=intitle:${encodeURIComponent(queryTxt)}`;
+  const url = `${baseUrl}${query}`;
+
+  // make the request to Google Book API and return result to gooble book service client
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        console.log(
+          `Google API returned error response code ${response.status} for URL ${url}. full response: `,
+          response
+        );
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => data.items || []) // Return items array or empty if none
+    .catch((error) => {
+      console.error(`Error fetching books from URL ${url}:`, error);
+      throw error;
+    });
 }
 
-const data = {
+const googleBooksMockData = {
   kind: "books#volumes",
   totalItems: 1000000,
   items: [

@@ -14,6 +14,10 @@ export function AddGoogleBook(onAdd) {
   ).current;
 
   useEffect(() => {
+    setSearchResults([]);
+  }, []);
+
+  useEffect(() => {
     handleSearchBooksDebounce(query);
   }, [query]);
 
@@ -26,9 +30,10 @@ export function AddGoogleBook(onAdd) {
   function handleSearchBooks(query) {
     console.log("Submitting request to google API with ", query);
     // pass the query input to google book service and set search results to response
-    const bookData = googleBookService.query(query);
-    console.log("response from google service:", bookData);
-    setSearchResults(bookData.items);
+    googleBookService.query(query).then((bookData) => {
+      console.log("response from google service:", bookData);
+      setSearchResults(bookData);
+    });
   }
 
   function handleAddBook(book) {
