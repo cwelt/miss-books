@@ -109,8 +109,9 @@ export function AddGoogleBook(onAdd) {
                     <button
                       className="google-add-button"
                       onClick={() => handleAddBook(book)}
+                      title="Add book to book list."
                     >
-                      ➕ Add
+                      +
                     </button>
                   </td>
                 </tr>
