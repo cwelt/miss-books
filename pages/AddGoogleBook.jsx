@@ -2,14 +2,19 @@ import { googleBookService } from "../services/google-book.service.js";
 import { bookService } from "../services/book.service.js";
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 
-const { useState } = React;
+const { useState, useEffect } = React;
 
 export function AddGoogleBook(onAdd) {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
+  useEffect(() => {
+    onSearch(query);
+  }, [query]);
+
   function handleSubmit(e) {
     e.preventDefault();
+    console.log("form submitted with: ", query);
     onSearch(query);
   }
 
