@@ -4,7 +4,7 @@ import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js";
 
 const { useState } = React;
 
-export function AddGoogleBook() {
+export function AddGoogleBook(onAdd) {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
@@ -25,11 +25,12 @@ export function AddGoogleBook() {
     console.log("adding book...", book);
     bookService
       .addGoogleBook(book)
-      .then((addedBook) =>
+      .then((addedBook) => {
         showSuccessMsg(
-          `Book ${addedBook.title} (${addedBook.id}) added successfully`
-        )
-      )
+          `Book ${addedBook.title} (${addedBook.id}) is now available on booklist.`
+        );
+        //window.open(`/#/book/${addedBook.id}`, "_blank", "noopener,noreferrer");
+      })
       .catch((err) => {
         console.error("Could not add book", err);
         showErrorMsg(`Error occurred in attempt to add google book: ${err}`);
