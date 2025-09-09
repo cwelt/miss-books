@@ -48,9 +48,12 @@ export function BookIndex() {
   return (
     <section className="book-index">
       <h2>Its all about Books 📖</h2>
-      <button onClick={onRemoveAllBooks}> Remove All Books </button>
+      <button onClick={onRemoveAllBooks}> Remove All Books 🗑️ </button>
       <button>
-        <Link to={"/book/edit"}>Add Book</Link>
+        <Link to={"/book/edit"}>Add New Book From Scratch ✚</Link>
+      </button>
+      <button>
+        <Link to={"/add"}>Add Books From Google Search 🌐</Link>
       </button>
 
       <section>

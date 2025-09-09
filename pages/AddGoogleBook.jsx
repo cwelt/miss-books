@@ -66,7 +66,7 @@ export function AddGoogleBook(onAdd) {
             onChange={(e) => setQuery(e.target.value)}
             className="google-search-input"
           />
-          <button type="submit" className="google-search-button">
+          <button hidden type="submit" className="google-search-button">
             Search
           </button>
         </form>
