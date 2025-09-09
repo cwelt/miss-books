@@ -22,9 +22,9 @@ function get(entityType, entityId) {
   });
 }
 
-function post(entityType, newEntity) {
+function post(entityType, newEntity, entityId = null) {
   newEntity = { ...newEntity };
-  newEntity.id = _makeId();
+  newEntity.id = entityId || _makeId();
   return query(entityType).then((entities) => {
     entities.push(newEntity);
     _save(entityType, entities);
