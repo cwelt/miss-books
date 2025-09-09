@@ -301,11 +301,17 @@ function _normalizeGoogleBookData(googleBook) {
     id: googleBook.id,
     title: googleBook.volumeInfo.title || "",
     subtitle: googleBook.volumeInfo.subtitle || "",
-    authors: [...googleBook.volumeInfo.authors] || [],
+    authors:
+      (googleBook.volumeInfo.authors && [...googleBook.volumeInfo.authors]) ||
+      [],
     publishedDate: (googleBook.volumeInfo.publishedDate || "1970").substr(0, 4), // extract year
     description: googleBook.volumeInfo.description || "",
     pageCount: googleBook.volumeInfo.pageCount || 0,
-    categories: [...googleBook.volumeInfo.categories] || [],
+    categories:
+      (googleBook.volumeInfo.categories && [
+        ...googleBook.volumeInfo.categories,
+      ]) ||
+      [],
     thumbnail:
       (googleBook.volumeInfo.imageLinks &&
         googleBook.volumeInfo.imageLinks.thumbnail) ||
