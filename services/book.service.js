@@ -299,15 +299,15 @@ function _normalizeGoogleBookData(googleBook) {
   console.log("normalizing ", googleBook);
   const normalizedBook = {
     id: googleBook.id,
-    title: googleBook.volumeInfo.title,
-    subtitle: googleBook.volumeInfo.subtitle,
-    authors: [...googleBook.volumeInfo.authors],
-    publishedDate: googleBook.volumeInfo.publishedDate.substring(0, 4), // extract year
-    description: googleBook.volumeInfo.description,
-    pageCount: googleBook.volumeInfo.pageCount,
-    categories: [...googleBook.volumeInfo.categories],
-    thumbnail: googleBook.volumeInfo.imageLinks.thumbnail,
-    language: googleBook.volumeInfo.imageLinks.language,
+    title: googleBook.volumeInfo.title || "",
+    subtitle: googleBook.volumeInfo.subtitle || "",
+    authors: [...googleBook.volumeInfo.authors] || [],
+    publishedDate: (googleBook.volumeInfo.publishedDate || "1970").substr(0, 4), // extract year
+    description: googleBook.volumeInfo.description || "",
+    pageCount: googleBook.volumeInfo.pageCount || 0,
+    categories: [...googleBook.volumeInfo.categories] || [],
+    thumbnail: googleBook.volumeInfo.imageLinks.thumbnail || "",
+    language: googleBook.volumeInfo.imageLinks.language || "",
     listPrice: googleBook.saleInfo.retailPrice
       ? {
           amount: googleBook.saleInfo.retailPrice.amount,
