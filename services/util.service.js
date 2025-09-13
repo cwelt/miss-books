@@ -10,6 +10,7 @@ export const utilService = {
   getMonthName,
   animateCSS,
   debounce,
+  getTruthyValues,
 };
 
 function makeId(length = 6) {
@@ -210,4 +211,13 @@ function debounce(func, time = 700) {
       func(...args);
     }, time);
   };
+}
+
+function getTruthyValues(obj) {
+  const newObj = {};
+  for (const field in obj) {
+    const value = obj[field];
+    if (value) newObj[field] = value;
+  }
+  return newObj;
 }

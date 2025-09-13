@@ -3,6 +3,8 @@ import { BookDetails } from "./BookDetails.jsx";
 import { BookEdit } from "./BookEdit.jsx";
 import { BookFilter } from "../cmps/BookFilter.jsx";
 import { bookService } from "../services/book.service.js";
+import { utilService } from "../services/util.service.js";
+
 import { ToggleButton } from "../cmps/ToggleButton.jsx";
 
 const { useState, useEffect } = React;
@@ -10,19 +12,30 @@ const { Link, useSearchParams, Outlet } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
-  const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filterBy, setFilterBy] = useState(
+    bookService.getFilterFromSearchParams(searchParams)
+  );
 
   useEffect(() => {
+    setSearchParams(utilService.getTruthyValues(filterBy));
     loadBooks();
   }, [filterBy]);
+
+  /*
+  useEffect(() => {
+    setFilterBy(bookService.getFilterFromSearchParams(searchParams));
+    console.log(searchParams, searchParams.get("endYear"));
+  }, [searchParams]);
+*/
 
   function loadBooks() {
     bookService
       .query(filterBy)
       .then(setBooks)
       .catch((err) => {
-        showErrorMsg("Problems getting books");
         console.log("Problems getting books:", err);
+        showErrorMsg("Problems getting books");
       });
   }
 
@@ -57,7 +70,11 @@ export function BookIndex() {
       </button>
 
       <section>
-        <BookFilter filterBy={filterBy} onSetFilterBy={setFilterBy} />
+        <BookFilter
+          // key={JSON.stringify(filterBy)}
+          filterBy={structuredClone(filterBy)}
+          onSetFilterBy={setFilterBy}
+        />
         <BookList books={books} onRemove={onRemoveBook} />
       </section>
     </section>
