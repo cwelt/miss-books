@@ -11,6 +11,7 @@ export const bookService = {
   save,
   getEmptyBook,
   getDefaultFilter,
+  getFilterFromSearchParams,
   getBookCategories,
   removeAllBooks,
   addReview,
@@ -134,6 +135,15 @@ function getDefaultFilter(
   }
 ) {
   return { ...filterBy };
+}
+
+function getFilterFromSearchParams(searchParams) {
+  const defaultFilter = getDefaultFilter();
+  const filterBy = {};
+  for (const field in defaultFilter) {
+    filterBy[field] = searchParams.get(field) || defaultFilter[field];
+  }
+  return filterBy;
 }
 
 function getBookCategories() {
