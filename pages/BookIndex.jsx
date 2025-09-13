@@ -10,19 +10,23 @@ const { Link, useSearchParams, Outlet } = ReactRouterDOM;
 
 export function BookIndex() {
   const [books, setBooks] = useState([]);
-  const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filterBy, setFilterBy] = useState(
+    bookService.getFilterFromSearchParams(searchParams)
+  );
 
   useEffect(() => {
     loadBooks();
   }, [filterBy]);
 
   function loadBooks() {
+    setSearchParams(filterBy);
     bookService
       .query(filterBy)
       .then(setBooks)
       .catch((err) => {
-        showErrorMsg("Problems getting books");
         console.log("Problems getting books:", err);
+        showErrorMsg("Problems getting books");
       });
   }
 
