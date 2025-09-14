@@ -13,6 +13,7 @@ export const bookService = {
   getDefaultFilter,
   getFilterFromSearchParams,
   getBookCategories,
+  getBookStats,
   removeAllBooks,
   addReview,
   removeReview,
