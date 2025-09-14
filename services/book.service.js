@@ -155,6 +155,26 @@ function getBookCategories() {
   });
 }
 
+function _getBookCountByCategoryMap(books) {
+  const bookCountByCategoryMap = books.reduce((map, book) => {
+    if (!map[book.category]) map[book.category] = 0;
+    map[book.category]++;
+    return map;
+  }, {});
+  return bookCountByCategoryMap;
+}
+
+function getBookStats() {
+  return storageService.query(BOOK_KEY).then((books) => {
+    const bookCountByCategory = _getBookCountByCategoryMap(books);
+    const data = Object.keys(bookCountByCategory).map((category) => ({
+      title: category,
+      value: Math.round((bookCountByCategory[category] / books.length) * 100),
+    }));
+    return data;
+  });
+}
+
 function _createBooks(useDemoData = false) {
   let books = utilService.loadFromStorage(BOOK_KEY);
   if (!books || !books.length) {
