@@ -158,8 +158,9 @@ function getBookCategories() {
 
 function _getBookCountByCategoryMap(books) {
   const bookCountByCategoryMap = books.reduce((map, book) => {
-    if (!map[book.category]) map[book.category] = 0;
-    map[book.category]++;
+    let category = book.categories[0];
+    if (!map[category]) map[category] = 0;
+    map[category]++;
     return map;
   }, {});
   return bookCountByCategoryMap;
@@ -167,6 +168,7 @@ function _getBookCountByCategoryMap(books) {
 
 function getBookStats() {
   return storageService.query(BOOK_KEY).then((books) => {
+    debugger;
     const bookCountByCategory = _getBookCountByCategoryMap(books);
     const data = Object.keys(bookCountByCategory).map((category) => ({
       title: category,
